@@ -166,24 +166,6 @@ export default function ScoreboardPage() {
             
             {/* Podium */}
             <div className="flex justify-center items-end gap-1 md:gap-2 lg:gap-4 h-64 mb-4 shrink-0 overflow-x-auto custom-scrollbar pb-2 pt-2">
-              {/* 2nd Place */}
-              {top4[1] && (
-                <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end">
-                  {top4[1].logoUrl && <img src={top4[1].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain" alt="logo" />}
-                  <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100">{top4[1].name}</div>
-                  <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2">{top4[1].totalPoints}</div>
-                  <div 
-                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/30 relative overflow-hidden"
-                    style={{ 
-                      backgroundColor: top4[1].colorCode,
-                      backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(255,255,255,0.1))',
-                      height: getPillarHeight(top4[1].totalPoints, 60) 
-                    }}
-                  >
-                    <span className="text-xl md:text-2xl lg:text-4xl font-black text-white/50 relative z-10">2</span>
-                  </div>
-                </div>
-              )}
               {/* 1st Place */}
               {top4[0] && (
                 <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end z-10">
@@ -199,6 +181,24 @@ export default function ScoreboardPage() {
                     }}
                   >
                     <span className="text-2xl md:text-3xl lg:text-5xl font-black text-white/60 relative z-10">1</span>
+                  </div>
+                </div>
+              )}
+              {/* 2nd Place */}
+              {top4[1] && (
+                <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end">
+                  {top4[1].logoUrl && <img src={top4[1].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain" alt="logo" />}
+                  <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100">{top4[1].name}</div>
+                  <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2">{top4[1].totalPoints}</div>
+                  <div 
+                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/30 relative overflow-hidden"
+                    style={{ 
+                      backgroundColor: top4[1].colorCode,
+                      backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(255,255,255,0.1))',
+                      height: getPillarHeight(top4[1].totalPoints, 65) 
+                    }}
+                  >
+                    <span className="text-xl md:text-2xl lg:text-4xl font-black text-white/50 relative z-10">2</span>
                   </div>
                 </div>
               )}
