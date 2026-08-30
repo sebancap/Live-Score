@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 export async function POST(request: Request) {
   const { username, password } = await request.json()
   
-  if (username === 'admin' && password === 'admin123') {
+  if (username === 'admin' && password === 'Kannur@2026') {
     cookies().set('admin_auth', 'true', { secure: true, httpOnly: true, path: '/' })
     return NextResponse.json({ success: true })
   }
