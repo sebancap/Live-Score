@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Group {
+  id          String   @id @default(cuid())
+  name        String
+  colorCode   String
+  logoUrl     String?
+  totalPoints Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  participants Participant[]
+  results      Result[]
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  programs Program[]
+}
+
+model Program {
+  id             String   @id @default(cuid())
+  name           String
+  type           String   // 'GROUP' | 'INDIVIDUAL'
+  status         String   @default("DRAFT") // 'DRAFT' | 'PUBLISHED'
+  pointsFirst    Int
+  pointsSecond   Int
+  pointsThird    Int
+  stageName      String?
+  time           String?
+  isLive         Boolean  @default(false)
+  
+  categoryId     String
+  category       Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  results        Result[]
+}
+
+model Participant {
+  id            String   @id @default(cuid())
+  chestNumber   String?  @unique
+  name          String
+  classDivision String?
+  
+  groupId       String
+  group         Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  results       Result[]
+}
+
+model Result {
+  id            String   @id @default(cuid())
+  marks         Float
+  rank          Int?
+  pointsAwarded Int      @default(0)
+  publishedAt   DateTime?
+
+  programId     String
+  program       Program  @relation(fields: [programId], references: [id], onDelete: Cascade)
+
+  participantId String?
+  participant   Participant? @relation(fields: [participantId], references: [id], onDelete: SetNull)
+
+  groupId       String
+  group         Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
