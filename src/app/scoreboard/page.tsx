@@ -149,7 +149,7 @@ export default function ScoreboardPage() {
   const currentEvent = sliderEvents[currentSlideIndex] || null
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-black text-white">
+    <div className="flex flex-col min-h-screen lg:h-screen lg:overflow-hidden overflow-x-hidden bg-black text-white">
       <header className="py-4 px-8 flex justify-between items-center border-b border-white/10 bg-black/40 backdrop-blur-md">
         <h1 className="text-3xl lg:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500 uppercase tracking-wide truncate pr-4">
           St. Francis Higher Secondary School Thottada <span className="text-white/80 font-normal">| School Cultural Fest</span>
@@ -161,13 +161,13 @@ export default function ScoreboardPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col lg:flex-row gap-6 p-6 min-h-0">
+      <main className="flex-1 flex flex-col lg:flex-row gap-6 p-6 lg:min-h-0">
         
         {/* Left Side: Overall Standings & Stages */}
-        <div className="w-full lg:w-1/2 flex flex-col gap-6 min-h-0">
+        <div className="w-full lg:w-1/2 flex flex-col gap-6 lg:min-h-0">
           
           {/* Overall Standing Container */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl shadow-2xl relative flex-1 min-h-0 flex flex-col">
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl shadow-2xl relative flex-1 lg:min-h-0 flex flex-col">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-3 shrink-0">
               <Trophy className="text-yellow-500 w-7 h-7" /> Overall Standings
             </h2>
@@ -176,7 +176,7 @@ export default function ScoreboardPage() {
             <div className="flex justify-center items-end gap-1 md:gap-2 lg:gap-4 min-h-[300px] mb-4 shrink-0 overflow-x-auto custom-scrollbar pb-2 pt-2">
               {/* 1st Place */}
               {top4[0] && (
-                <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end z-10">
+                <div className="flex flex-col items-center flex-1 min-w-[100px] md:min-w-[70px] h-full justify-end z-10">
                   {top4[0].logoUrl ? <img src={top4[0].logoUrl} className="w-10 h-10 lg:w-16 lg:h-16 mb-2 object-contain animate-bounce shrink-0" alt="logo" /> : <Trophy className="text-yellow-400 w-8 h-8 lg:w-12 lg:h-12 mb-2 animate-bounce shrink-0" />}
                   <div className="text-sm md:text-base lg:text-xl font-black mb-1 w-full text-center text-yellow-300 leading-tight break-words px-1 shrink-0">{top4[0].name}</div>
                   <div className="text-xl md:text-2xl lg:text-4xl font-extrabold mb-2 shrink-0">{top4[0].totalPoints}</div>
@@ -194,7 +194,7 @@ export default function ScoreboardPage() {
               )}
               {/* 2nd Place */}
               {top4[1] && (
-                <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end">
+                <div className="flex flex-col items-center flex-1 min-w-[100px] md:min-w-[70px] h-full justify-end">
                   {top4[1].logoUrl && <img src={top4[1].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain shrink-0" alt="logo" />}
                   <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100 shrink-0">{top4[1].name}</div>
                   <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2 shrink-0">{top4[1].totalPoints}</div>
@@ -212,7 +212,7 @@ export default function ScoreboardPage() {
               )}
               {/* 3rd Place */}
               {top4[2] && (
-                <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end">
+                <div className="flex flex-col items-center flex-1 min-w-[100px] md:min-w-[70px] h-full justify-end">
                   {top4[2].logoUrl && <img src={top4[2].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain shrink-0" alt="logo" />}
                   <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100 shrink-0">{top4[2].name}</div>
                   <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2 shrink-0">{top4[2].totalPoints}</div>
@@ -230,7 +230,7 @@ export default function ScoreboardPage() {
               )}
               {/* 4th Place */}
               {top4[3] && (
-                <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end">
+                <div className="flex flex-col items-center flex-1 min-w-[100px] md:min-w-[70px] h-full justify-end">
                   {top4[3].logoUrl && <img src={top4[3].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain shrink-0" alt="logo" />}
                   <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100 shrink-0">{top4[3].name}</div>
                   <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2 shrink-0">{top4[3].totalPoints}</div>
@@ -293,10 +293,10 @@ export default function ScoreboardPage() {
         </div>
 
         {/* Right Side: Results */}
-        <div className="w-full lg:w-1/2 flex flex-col gap-6 min-h-0">
+        <div className="w-full lg:w-1/2 flex flex-col gap-6 lg:min-h-0">
           
           {/* Top Container: Latest Result (Static) */}
-          <div className="flex-1 bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/20 rounded-3xl p-5 backdrop-blur-xl shadow-2xl relative overflow-hidden flex flex-col">
+          <div className="flex-1 min-h-[300px] lg:min-h-0 bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/20 rounded-3xl p-5 backdrop-blur-xl shadow-2xl relative overflow-hidden flex flex-col">
             <h2 className="text-lg font-bold flex items-center gap-2 mb-2 text-yellow-400 shrink-0">
               <Star className="w-5 h-5" /> Latest Announcement
             </h2>
@@ -306,7 +306,7 @@ export default function ScoreboardPage() {
           </div>
 
           {/* Bottom Container: Past Results (Slideshow) */}
-          <div className="flex-1 bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/20 rounded-3xl p-5 backdrop-blur-xl shadow-2xl relative overflow-hidden flex flex-col">
+          <div className="flex-1 min-h-[300px] lg:min-h-0 bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/20 rounded-3xl p-5 backdrop-blur-xl shadow-2xl relative overflow-hidden flex flex-col">
             <div className="flex items-center justify-between mb-2 shrink-0">
               <h2 className="text-lg font-bold flex items-center gap-2 text-gray-300">
                 <Star className="w-5 h-5 text-gray-400" /> Past Results
