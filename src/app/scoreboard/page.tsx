@@ -125,16 +125,16 @@ export default function ScoreboardPage() {
   const groups = data.groups || []
   const livePrograms = data.livePrograms || []
 
-  // Top 3 for Podium
-  const top3 = groups.slice(0, 3)
-  const others = groups.slice(3)
+  // Top 4 for Podium
+  const top4 = groups.slice(0, 4)
+  const others = groups.slice(4)
 
-  const maxPoints = top3[0]?.totalPoints > 0 ? top3[0].totalPoints : 1
+  const maxPoints = top4[0]?.totalPoints > 0 ? top4[0].totalPoints : 1
   
   const getPillarHeight = (points: number, defaultPercent: number) => {
-    if (top3[0]?.totalPoints === 0) return `${defaultPercent}%`
+    if (top4[0]?.totalPoints === 0) return `${defaultPercent}%`
     const calculated = (points / maxPoints) * 85 // Max height is 85% for 1st place
-    return `${Math.max(15, calculated)}%` // At least 15% height so the number fits
+    return `${Math.max(22, calculated)}%` // At least 22% height so the number fits properly
   }
 
   const sliderEvents = publishedEvents.length > 1 ? publishedEvents.slice(1) : []
@@ -165,69 +165,87 @@ export default function ScoreboardPage() {
             </h2>
             
             {/* Podium */}
-            <div className="flex justify-center items-end gap-2 lg:gap-4 h-64 mb-4 shrink-0">
+            <div className="flex justify-center items-end gap-1 md:gap-2 lg:gap-4 h-64 mb-4 shrink-0 overflow-x-auto custom-scrollbar pb-2 pt-2">
               {/* 2nd Place */}
-              {top3[1] && (
-                <div className="flex flex-col items-center w-1/3 h-full justify-end">
-                  {top3[1].logoUrl && <img src={top3[1].logoUrl} className="w-12 h-12 mb-2 object-contain" alt="logo" />}
-                  <div className="text-base lg:text-lg font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100">{top3[1].name}</div>
-                  <div className="text-2xl lg:text-3xl font-extrabold text-gray-200 mb-2">{top3[1].totalPoints}</div>
+              {top4[1] && (
+                <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end">
+                  {top4[1].logoUrl && <img src={top4[1].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain" alt="logo" />}
+                  <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100">{top4[1].name}</div>
+                  <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2">{top4[1].totalPoints}</div>
                   <div 
-                    className="w-full rounded-t-xl flex justify-center pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/30 relative overflow-hidden"
+                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/30 relative overflow-hidden"
                     style={{ 
-                      backgroundColor: top3[1].colorCode,
+                      backgroundColor: top4[1].colorCode,
                       backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(255,255,255,0.1))',
-                      height: getPillarHeight(top3[1].totalPoints, 60) 
+                      height: getPillarHeight(top4[1].totalPoints, 60) 
                     }}
                   >
-                    <span className="text-3xl lg:text-4xl font-black text-white/50 relative z-10">2</span>
+                    <span className="text-xl md:text-2xl lg:text-4xl font-black text-white/50 relative z-10">2</span>
                   </div>
                 </div>
               )}
               {/* 1st Place */}
-              {top3[0] && (
-                <div className="flex flex-col items-center w-1/3 h-full justify-end z-10">
-                  {top3[0].logoUrl ? <img src={top3[0].logoUrl} className="w-16 h-16 mb-2 object-contain animate-bounce" alt="logo" /> : <Trophy className="text-yellow-400 w-12 h-12 mb-2 animate-bounce" />}
-                  <div className="text-lg lg:text-xl font-black mb-1 w-full text-center text-yellow-300 leading-tight break-words px-1">{top3[0].name}</div>
-                  <div className="text-3xl lg:text-4xl font-extrabold mb-2">{top3[0].totalPoints}</div>
+              {top4[0] && (
+                <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end z-10">
+                  {top4[0].logoUrl ? <img src={top4[0].logoUrl} className="w-10 h-10 lg:w-16 lg:h-16 mb-2 object-contain animate-bounce" alt="logo" /> : <Trophy className="text-yellow-400 w-8 h-8 lg:w-12 lg:h-12 mb-2 animate-bounce" />}
+                  <div className="text-sm md:text-base lg:text-xl font-black mb-1 w-full text-center text-yellow-300 leading-tight break-words px-1">{top4[0].name}</div>
+                  <div className="text-xl md:text-2xl lg:text-4xl font-extrabold mb-2">{top4[0].totalPoints}</div>
                   <div 
-                    className="w-full rounded-t-xl flex justify-center pt-3 shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-1000 ease-out border-t-4 border-white/50 relative overflow-hidden"
+                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-1000 ease-out border-t-4 border-white/50 relative overflow-hidden"
                     style={{ 
-                      backgroundColor: top3[0].colorCode,
+                      backgroundColor: top4[0].colorCode,
                       backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(255,255,255,0.25))',
-                      height: getPillarHeight(top3[0].totalPoints, 85) 
+                      height: getPillarHeight(top4[0].totalPoints, 85) 
                     }}
                   >
-                    <span className="text-4xl lg:text-5xl font-black text-white/60 relative z-10">1</span>
+                    <span className="text-2xl md:text-3xl lg:text-5xl font-black text-white/60 relative z-10">1</span>
                   </div>
                 </div>
               )}
               {/* 3rd Place */}
-              {top3[2] && (
-                <div className="flex flex-col items-center w-1/3 h-full justify-end">
-                  {top3[2].logoUrl && <img src={top3[2].logoUrl} className="w-12 h-12 mb-2 object-contain" alt="logo" />}
-                  <div className="text-base lg:text-lg font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100">{top3[2].name}</div>
-                  <div className="text-2xl lg:text-3xl font-extrabold text-gray-200 mb-2">{top3[2].totalPoints}</div>
+              {top4[2] && (
+                <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end">
+                  {top4[2].logoUrl && <img src={top4[2].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain" alt="logo" />}
+                  <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100">{top4[2].name}</div>
+                  <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2">{top4[2].totalPoints}</div>
                   <div 
-                    className="w-full rounded-t-xl flex justify-center pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/20 relative overflow-hidden"
+                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/20 relative overflow-hidden"
                     style={{ 
-                      backgroundColor: top3[2].colorCode,
+                      backgroundColor: top4[2].colorCode,
                       backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(255,255,255,0.05))',
-                      height: getPillarHeight(top3[2].totalPoints, 45) 
+                      height: getPillarHeight(top4[2].totalPoints, 45) 
                     }}
                   >
-                    <span className="text-3xl lg:text-4xl font-black text-white/40 relative z-10">3</span>
+                    <span className="text-xl md:text-2xl lg:text-4xl font-black text-white/40 relative z-10">3</span>
+                  </div>
+                </div>
+              )}
+              {/* 4th Place */}
+              {top4[3] && (
+                <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end">
+                  {top4[3].logoUrl && <img src={top4[3].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain" alt="logo" />}
+                  <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100">{top4[3].name}</div>
+                  <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2">{top4[3].totalPoints}</div>
+                  <div 
+                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/10 relative overflow-hidden"
+                    style={{ 
+                      backgroundColor: top4[3].colorCode,
+                      backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(255,255,255,0.02))',
+                      height: getPillarHeight(top4[3].totalPoints, 25) 
+                    }}
+                  >
+                    <span className="text-xl md:text-2xl lg:text-4xl font-black text-white/30 relative z-10">4</span>
                   </div>
                 </div>
               )}
             </div>
 
             {/* Other Ranks */}
-            <div className="overflow-y-auto custom-scrollbar flex-1 space-y-2 pr-2">
+            <div className="overflow-y-auto custom-scrollbar flex-1 space-y-2 pr-2 mt-2">
               {others.map((group: any, idx: number) => (
                 <div key={group.id} className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5">
                   <div className="flex items-center gap-4">
-                    <span className="text-gray-400 font-bold w-4 text-right text-lg">{idx + 4}</span>
+                    <span className="text-gray-400 font-bold w-4 text-right text-lg">{idx + 5}</span>
                     {group.logoUrl ? (
                       <img src={group.logoUrl} className="w-8 h-8 object-contain" alt="logo" />
                     ) : (
