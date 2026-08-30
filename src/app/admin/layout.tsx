@@ -52,8 +52,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             )
           })}
         </nav>
-        <div className="p-4 border-t border-indigo-800 text-xs text-indigo-400 text-center">
-          Admin Dashboard
+        <div className="p-4 border-t border-indigo-800">
+          <button
+            onClick={async () => {
+              await fetch('/api/auth', { method: 'DELETE' })
+              window.location.href = '/admin/login'
+            }}
+            className="w-full flex items-center px-4 py-3 text-sm font-semibold text-indigo-300 hover:bg-indigo-800 hover:text-white rounded-xl transition-all duration-200"
+          >
+            <svg className="mr-4 flex-shrink-0 h-5 w-5 text-indigo-400 group-hover:text-indigo-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Logout
+          </button>
         </div>
       </aside>
       
