@@ -133,8 +133,8 @@ export default function ScoreboardPage() {
   
   const getPillarHeight = (points: number, defaultPercent: number) => {
     if (top4[0]?.totalPoints === 0) return `${defaultPercent}%`
-    const calculated = (points / maxPoints) * 85 // Max height is 85% for 1st place
-    return `${Math.max(22, calculated)}%` // At least 22% height so the number fits properly
+    const calculated = (points / maxPoints) * 50 // Max height reduced to 50% so 1st place logo doesn't overflow and get squished by flexbox
+    return `${Math.max(15, calculated)}%` // At least 15% height so the number fits
   }
 
   const sliderEvents = publishedEvents.length > 1 ? publishedEvents.slice(1) : []
@@ -165,19 +165,19 @@ export default function ScoreboardPage() {
             </h2>
             
             {/* Podium */}
-            <div className="flex justify-center items-end gap-1 md:gap-2 lg:gap-4 h-64 mb-4 shrink-0 overflow-x-auto custom-scrollbar pb-2 pt-2">
+            <div className="flex justify-center items-end gap-1 md:gap-2 lg:gap-4 min-h-[300px] mb-4 shrink-0 overflow-x-auto custom-scrollbar pb-2 pt-2">
               {/* 1st Place */}
               {top4[0] && (
                 <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end z-10">
-                  {top4[0].logoUrl ? <img src={top4[0].logoUrl} className="w-10 h-10 lg:w-16 lg:h-16 mb-2 object-contain animate-bounce" alt="logo" /> : <Trophy className="text-yellow-400 w-8 h-8 lg:w-12 lg:h-12 mb-2 animate-bounce" />}
-                  <div className="text-sm md:text-base lg:text-xl font-black mb-1 w-full text-center text-yellow-300 leading-tight break-words px-1">{top4[0].name}</div>
-                  <div className="text-xl md:text-2xl lg:text-4xl font-extrabold mb-2">{top4[0].totalPoints}</div>
+                  {top4[0].logoUrl ? <img src={top4[0].logoUrl} className="w-10 h-10 lg:w-16 lg:h-16 mb-2 object-contain animate-bounce shrink-0" alt="logo" /> : <Trophy className="text-yellow-400 w-8 h-8 lg:w-12 lg:h-12 mb-2 animate-bounce shrink-0" />}
+                  <div className="text-sm md:text-base lg:text-xl font-black mb-1 w-full text-center text-yellow-300 leading-tight break-words px-1 shrink-0">{top4[0].name}</div>
+                  <div className="text-xl md:text-2xl lg:text-4xl font-extrabold mb-2 shrink-0">{top4[0].totalPoints}</div>
                   <div 
-                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-1000 ease-out border-t-4 border-white/50 relative overflow-hidden"
+                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-1000 ease-out border-t-4 border-white/50 relative overflow-hidden shrink-0"
                     style={{ 
                       backgroundColor: top4[0].colorCode,
                       backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(255,255,255,0.25))',
-                      height: getPillarHeight(top4[0].totalPoints, 85) 
+                      height: getPillarHeight(top4[0].totalPoints, 50) 
                     }}
                   >
                     <span className="text-2xl md:text-3xl lg:text-5xl font-black text-white/60 relative z-10">1</span>
@@ -187,15 +187,15 @@ export default function ScoreboardPage() {
               {/* 2nd Place */}
               {top4[1] && (
                 <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end">
-                  {top4[1].logoUrl && <img src={top4[1].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain" alt="logo" />}
-                  <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100">{top4[1].name}</div>
-                  <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2">{top4[1].totalPoints}</div>
+                  {top4[1].logoUrl && <img src={top4[1].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain shrink-0" alt="logo" />}
+                  <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100 shrink-0">{top4[1].name}</div>
+                  <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2 shrink-0">{top4[1].totalPoints}</div>
                   <div 
-                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/30 relative overflow-hidden"
+                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/30 relative overflow-hidden shrink-0"
                     style={{ 
                       backgroundColor: top4[1].colorCode,
                       backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(255,255,255,0.1))',
-                      height: getPillarHeight(top4[1].totalPoints, 65) 
+                      height: getPillarHeight(top4[1].totalPoints, 40) 
                     }}
                   >
                     <span className="text-xl md:text-2xl lg:text-4xl font-black text-white/50 relative z-10">2</span>
@@ -205,15 +205,15 @@ export default function ScoreboardPage() {
               {/* 3rd Place */}
               {top4[2] && (
                 <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end">
-                  {top4[2].logoUrl && <img src={top4[2].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain" alt="logo" />}
-                  <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100">{top4[2].name}</div>
-                  <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2">{top4[2].totalPoints}</div>
+                  {top4[2].logoUrl && <img src={top4[2].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain shrink-0" alt="logo" />}
+                  <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100 shrink-0">{top4[2].name}</div>
+                  <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2 shrink-0">{top4[2].totalPoints}</div>
                   <div 
-                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/20 relative overflow-hidden"
+                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/20 relative overflow-hidden shrink-0"
                     style={{ 
                       backgroundColor: top4[2].colorCode,
                       backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(255,255,255,0.05))',
-                      height: getPillarHeight(top4[2].totalPoints, 45) 
+                      height: getPillarHeight(top4[2].totalPoints, 30) 
                     }}
                   >
                     <span className="text-xl md:text-2xl lg:text-4xl font-black text-white/40 relative z-10">3</span>
@@ -223,15 +223,15 @@ export default function ScoreboardPage() {
               {/* 4th Place */}
               {top4[3] && (
                 <div className="flex flex-col items-center flex-1 min-w-[70px] h-full justify-end">
-                  {top4[3].logoUrl && <img src={top4[3].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain" alt="logo" />}
-                  <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100">{top4[3].name}</div>
-                  <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2">{top4[3].totalPoints}</div>
+                  {top4[3].logoUrl && <img src={top4[3].logoUrl} className="w-8 h-8 lg:w-12 lg:h-12 mb-2 object-contain shrink-0" alt="logo" />}
+                  <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100 shrink-0">{top4[3].name}</div>
+                  <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2 shrink-0">{top4[3].totalPoints}</div>
                   <div 
-                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/10 relative overflow-hidden"
+                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/10 relative overflow-hidden shrink-0"
                     style={{ 
                       backgroundColor: top4[3].colorCode,
                       backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(255,255,255,0.02))',
-                      height: getPillarHeight(top4[3].totalPoints, 25) 
+                      height: getPillarHeight(top4[3].totalPoints, 20) 
                     }}
                   >
                     <span className="text-xl md:text-2xl lg:text-4xl font-black text-white/30 relative z-10">4</span>
