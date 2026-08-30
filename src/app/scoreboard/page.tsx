@@ -133,8 +133,8 @@ export default function ScoreboardPage() {
   
   const getPillarHeight = (points: number, defaultPercent: number) => {
     if (top4[0]?.totalPoints === 0) return `${defaultPercent}%`
-    const calculated = (points / maxPoints) * 50 // Max height reduced to 50% so 1st place logo doesn't overflow and get squished by flexbox
-    return `${Math.max(15, calculated)}%` // At least 15% height so the number fits
+    const calculated = (points / maxPoints) * 50 
+    return `${Math.max(25, calculated)}%` // Increased to 25% so the numbers never get chopped off by overflow-hidden
   }
 
   const sliderEvents = publishedEvents.length > 1 ? publishedEvents.slice(1) : []
@@ -216,7 +216,7 @@ export default function ScoreboardPage() {
                       height: getPillarHeight(top4[2].totalPoints, 30) 
                     }}
                   >
-                    <span className="text-xl md:text-2xl lg:text-4xl font-black text-white/40 relative z-10">3</span>
+                    <span className="text-xl md:text-2xl lg:text-3xl font-black text-white/40 relative z-10">3</span>
                   </div>
                 </div>
               )}
@@ -234,7 +234,7 @@ export default function ScoreboardPage() {
                       height: getPillarHeight(top4[3].totalPoints, 20) 
                     }}
                   >
-                    <span className="text-xl md:text-2xl lg:text-4xl font-black text-white/30 relative z-10">4</span>
+                    <span className="text-xl md:text-2xl lg:text-3xl font-black text-white/30 relative z-10">4</span>
                   </div>
                 </div>
               )}
