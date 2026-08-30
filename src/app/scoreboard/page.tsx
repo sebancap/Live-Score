@@ -131,10 +131,18 @@ export default function ScoreboardPage() {
 
   const maxPoints = top4[0]?.totalPoints > 0 ? top4[0].totalPoints : 1
   
-  const getPillarHeight = (points: number, defaultPercent: number) => {
-    if (top4[0]?.totalPoints === 0) return `${defaultPercent}%`
-    const calculated = (points / maxPoints) * 50 
-    return `${Math.max(25, calculated)}%` // Increased to 25% so the numbers never get chopped off by overflow-hidden
+  const getPillarHeight = (points: number, rankIndex: number) => {
+    // Staggered default heights if score is 0
+    const defaults = [50, 40, 30, 20]
+    if (top4[0]?.totalPoints === 0) return `${defaults[rankIndex]}%`
+    
+    // Dynamic height calculation
+    const calculated = (points / maxPoints) * 50
+    
+    // Staggered absolute minimum heights so they never flatten into ties when scores are extremely low
+    const minimums = [26, 22, 17, 12] 
+    
+    return `${Math.max(minimums[rankIndex], calculated)}%`
   }
 
   const sliderEvents = publishedEvents.length > 1 ? publishedEvents.slice(1) : []
@@ -173,11 +181,11 @@ export default function ScoreboardPage() {
                   <div className="text-sm md:text-base lg:text-xl font-black mb-1 w-full text-center text-yellow-300 leading-tight break-words px-1 shrink-0">{top4[0].name}</div>
                   <div className="text-xl md:text-2xl lg:text-4xl font-extrabold mb-2 shrink-0">{top4[0].totalPoints}</div>
                   <div 
-                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-1000 ease-out border-t-4 border-white/50 relative overflow-hidden shrink-0"
+                    className="w-full rounded-t-xl flex justify-center pt-1 md:pt-2 shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-1000 ease-out border-t-4 border-white/50 relative overflow-hidden shrink-0"
                     style={{ 
                       backgroundColor: top4[0].colorCode,
                       backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(255,255,255,0.25))',
-                      height: getPillarHeight(top4[0].totalPoints, 50) 
+                      height: getPillarHeight(top4[0].totalPoints, 0) 
                     }}
                   >
                     <span className="text-2xl md:text-3xl lg:text-5xl font-black text-white/60 relative z-10">1</span>
@@ -191,11 +199,11 @@ export default function ScoreboardPage() {
                   <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100 shrink-0">{top4[1].name}</div>
                   <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2 shrink-0">{top4[1].totalPoints}</div>
                   <div 
-                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/30 relative overflow-hidden shrink-0"
+                    className="w-full rounded-t-xl flex justify-center pt-1 md:pt-2 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/30 relative overflow-hidden shrink-0"
                     style={{ 
                       backgroundColor: top4[1].colorCode,
                       backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(255,255,255,0.1))',
-                      height: getPillarHeight(top4[1].totalPoints, 40) 
+                      height: getPillarHeight(top4[1].totalPoints, 1) 
                     }}
                   >
                     <span className="text-xl md:text-2xl lg:text-4xl font-black text-white/50 relative z-10">2</span>
@@ -209,11 +217,11 @@ export default function ScoreboardPage() {
                   <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100 shrink-0">{top4[2].name}</div>
                   <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2 shrink-0">{top4[2].totalPoints}</div>
                   <div 
-                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/20 relative overflow-hidden shrink-0"
+                    className="w-full rounded-t-xl flex justify-center pt-1 md:pt-2 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/20 relative overflow-hidden shrink-0"
                     style={{ 
                       backgroundColor: top4[2].colorCode,
                       backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(255,255,255,0.05))',
-                      height: getPillarHeight(top4[2].totalPoints, 30) 
+                      height: getPillarHeight(top4[2].totalPoints, 2) 
                     }}
                   >
                     <span className="text-xl md:text-2xl lg:text-3xl font-black text-white/40 relative z-10">3</span>
@@ -227,11 +235,11 @@ export default function ScoreboardPage() {
                   <div className="text-xs md:text-sm lg:text-base font-bold mb-1 w-full text-center leading-tight break-words px-1 text-gray-100 shrink-0">{top4[3].name}</div>
                   <div className="text-lg md:text-xl lg:text-3xl font-extrabold text-gray-200 mb-2 shrink-0">{top4[3].totalPoints}</div>
                   <div 
-                    className="w-full rounded-t-xl flex justify-center pt-2 md:pt-3 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/10 relative overflow-hidden shrink-0"
+                    className="w-full rounded-t-xl flex justify-center pt-1 md:pt-2 shadow-2xl transition-all duration-1000 ease-out border-t-4 border-white/10 relative overflow-hidden shrink-0"
                     style={{ 
                       backgroundColor: top4[3].colorCode,
                       backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(255,255,255,0.02))',
-                      height: getPillarHeight(top4[3].totalPoints, 20) 
+                      height: getPillarHeight(top4[3].totalPoints, 3) 
                     }}
                   >
                     <span className="text-xl md:text-2xl lg:text-3xl font-black text-white/30 relative z-10">4</span>
