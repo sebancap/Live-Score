@@ -13,8 +13,7 @@ export default function MarkEntryPage() {
   
   const [selectedCat, setSelectedCat] = useState('')
   const [selectedProg, setSelectedProg] = useState<any>(null)
-  
-  const { data: results, mutate: mutateResults } = useSWR(selectedProg ? \/api/results?programId=\\ : null, fetcher)
+  const { data: results, mutate: mutateResults } = useSWR(selectedProg ? `/api/results?programId=${selectedProg.id}` : null, fetcher)
 
   const [entryForm, setEntryForm] = useState({ chestNumber: '', name: '', groupId: '', rank: '1' })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -27,7 +26,7 @@ export default function MarkEntryPage() {
     try {
       // If editing, delete the old result first to deduct old points properly
       if (editId) {
-        await fetch(\/api/results/\\, { method: 'DELETE' })
+        await fetch(`/api/results/${editId}`, { method: 'DELETE' })
       }
 
       // Auto-create/fetch participant for individual
@@ -91,7 +90,7 @@ export default function MarkEntryPage() {
   const handleDeleteResult = async (id: string) => {
     if (!confirm('Delete this published result? This will deduct points.')) return
     setIsSubmitting(true)
-    await fetch(\/api/results/\\, { method: 'DELETE' })
+    await fetch(`/api/results/${id}`, { method: 'DELETE' })
     setEditId(null)
     setEntryForm({ chestNumber: '', name: '', groupId: '', rank: '1' })
     mutateResults()
