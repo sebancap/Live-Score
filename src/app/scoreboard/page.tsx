@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import useSWR from 'swr'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Trophy, Mic2, Star } from 'lucide-react'
+import { Trophy, Mic2, Star, Maximize, Minimize } from 'lucide-react'
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
@@ -13,6 +13,9 @@ function EventResultDisplay({ event, isCompact = false }: { event: any, isCompac
   const firsts = event.results.filter((r:any) => r.rank === 1)
   const seconds = event.results.filter((r:any) => r.rank === 2)
   const thirds = event.results.filter((r:any) => r.rank === 3)
+  
+  const totalWinners = firsts.length + seconds.length + thirds.length
+  const isGrid = totalWinners > 3
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
@@ -24,44 +27,44 @@ function EventResultDisplay({ event, isCompact = false }: { event: any, isCompac
           {event.program.name}
         </h3>
       </div>
-      <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col justify-start gap-2 pr-2 pb-2">
+      <div className={`flex-1 overflow-y-auto custom-scrollbar pr-2 pb-2 ${isGrid ? 'grid grid-cols-2 gap-2 content-start' : 'flex flex-col justify-start gap-2'}`}>
         {/* 1st Place(s) */}
         {firsts.map((r: any) => (
-          <div key={r.id} className={`bg-yellow-500/10 border border-yellow-500/30 rounded-xl ${isCompact ? 'p-2' : 'p-3'} flex items-center gap-4 transform scale-[1.02] shadow-[0_0_15px_rgba(234,179,8,0.15)] relative overflow-hidden shrink-0`}>
+          <div key={r.id} className={`bg-yellow-500/10 border border-yellow-500/30 rounded-xl ${isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isGrid ? 'gap-2' : 'gap-4'} transform scale-[1.02] shadow-[0_0_15px_rgba(234,179,8,0.15)] relative overflow-hidden shrink-0`}>
             <div className="absolute top-0 left-0 w-1.5 h-full bg-yellow-500" />
-            <div className="text-2xl font-black text-yellow-500 w-12 text-center">1st</div>
-            {r.group.logoUrl && <img src={r.group.logoUrl} className="w-8 h-8 object-contain" alt="logo" />}
+            <div className={`${isGrid ? 'text-xl w-8' : 'text-2xl w-12'} font-black text-yellow-500 text-center`}>1st</div>
+            {r.group.logoUrl && <img src={r.group.logoUrl} className={`${isGrid ? 'w-6 h-6' : 'w-8 h-8'} object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
-              <div className="text-lg font-bold text-white truncate">{r.group.name}</div>
+              <div className={`${isGrid ? 'text-base' : 'text-lg'} font-bold text-white truncate`}>{r.group.name}</div>
               {r.participant && <div className="text-yellow-200/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
             </div>
-            <div className="text-lg font-bold text-yellow-500 bg-yellow-500/10 px-3 py-1 rounded-lg">+{r.pointsAwarded}</div>
+            <div className={`${isGrid ? 'text-sm' : 'text-lg'} font-bold text-yellow-500 bg-yellow-500/10 px-2 py-1 rounded-lg`}>+{r.pointsAwarded}</div>
           </div>
         ))}
         
         {/* 2nd Place(s) */}
         {seconds.map((r: any) => (
-          <div key={r.id} className={`bg-gray-400/10 border border-gray-400/30 rounded-xl ${isCompact ? 'p-2' : 'p-3'} flex items-center gap-3 ml-2 shrink-0`}>
-            <div className="text-xl font-black text-gray-400 w-12 text-center">2nd</div>
-            {r.group.logoUrl && <img src={r.group.logoUrl} className="w-6 h-6 object-contain" alt="logo" />}
+          <div key={r.id} className={`bg-gray-400/10 border border-gray-400/30 rounded-xl ${isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isGrid ? 'gap-2' : 'gap-3 ml-2'} shrink-0`}>
+            <div className={`${isGrid ? 'text-lg w-8' : 'text-xl w-12'} font-black text-gray-400 text-center`}>2nd</div>
+            {r.group.logoUrl && <img src={r.group.logoUrl} className={`${isGrid ? 'w-5 h-5' : 'w-6 h-6'} object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
-              <div className="text-base font-bold text-white truncate">{r.group.name}</div>
+              <div className={`${isGrid ? 'text-sm' : 'text-base'} font-bold text-white truncate`}>{r.group.name}</div>
               {r.participant && <div className="text-gray-300/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
             </div>
-            <div className="text-base font-bold text-gray-300 bg-gray-400/10 px-2 py-1 rounded-lg">+{r.pointsAwarded}</div>
+            <div className={`${isGrid ? 'text-xs' : 'text-base'} font-bold text-gray-300 bg-gray-400/10 px-2 py-1 rounded-lg`}>+{r.pointsAwarded}</div>
           </div>
         ))}
 
         {/* 3rd Place(s) */}
         {thirds.map((r: any) => (
-          <div key={r.id} className={`bg-orange-500/10 border border-orange-500/30 rounded-xl ${isCompact ? 'p-2' : 'p-3'} flex items-center gap-3 ml-4 shrink-0`}>
-            <div className="text-lg font-black text-orange-400 w-12 text-center">3rd</div>
-            {r.group.logoUrl && <img src={r.group.logoUrl} className="w-5 h-5 object-contain" alt="logo" />}
+          <div key={r.id} className={`bg-orange-500/10 border border-orange-500/30 rounded-xl ${isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isGrid ? 'gap-2' : 'gap-3 ml-4'} shrink-0`}>
+            <div className={`${isGrid ? 'text-base w-8' : 'text-lg w-12'} font-black text-orange-400 text-center`}>3rd</div>
+            {r.group.logoUrl && <img src={r.group.logoUrl} className={`${isGrid ? 'w-4 h-4' : 'w-5 h-5'} object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
-              <div className="text-sm font-bold text-white truncate">{r.group.name}</div>
+              <div className={`${isGrid ? 'text-xs' : 'text-sm'} font-bold text-white truncate`}>{r.group.name}</div>
               {r.participant && <div className="text-orange-200/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
             </div>
-            <div className="text-sm font-bold text-orange-400 bg-orange-500/10 px-2 py-1 rounded-lg">+{r.pointsAwarded}</div>
+            <div className={`${isGrid ? 'text-xs' : 'text-sm'} font-bold text-orange-400 bg-orange-500/10 px-2 py-1 rounded-lg`}>+{r.pointsAwarded}</div>
           </div>
         ))}
       </div>
@@ -72,6 +75,25 @@ function EventResultDisplay({ event, isCompact = false }: { event: any, isCompac
 export default function ScoreboardPage() {
   const { data, isLoading } = useSWR('/api/scoreboard', fetcher, { refreshInterval: 3000 })
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => console.log(err))
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen()
+      }
+    }
+  }
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
+  }, [])
 
   // Process published results into events for the slideshow
   const publishedEvents = useMemo(() => {
@@ -146,12 +168,21 @@ export default function ScoreboardPage() {
   return (
     <div className="flex flex-col min-h-screen lg:h-screen lg:overflow-hidden overflow-x-hidden bg-black text-white">
       <header className="py-4 px-8 flex justify-between items-center border-b border-white/10 bg-black/40 backdrop-blur-md">
-        <h1 className="text-3xl lg:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500 uppercase tracking-wide truncate pr-4">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500 uppercase tracking-wide leading-tight pr-4">
           St. Francis Higher Secondary School Thottada <span className="text-white/80 font-normal">| School Cultural Fest</span>
         </h1>
-        <div className="flex items-center space-x-2 shrink-0 bg-red-600/20 px-4 py-1.5 rounded-full border border-red-500/30">
-          <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-          <span className="font-bold tracking-widest text-red-500 uppercase text-sm">Live Score</span>
+        <div className="flex items-center space-x-4 shrink-0">
+          <div className="flex items-center space-x-2 bg-red-600/20 px-4 py-1.5 rounded-full border border-red-500/30">
+            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
+            <span className="font-bold tracking-widest text-red-500 uppercase text-sm">Live Score</span>
+          </div>
+          <button 
+            onClick={toggleFullscreen} 
+            className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white"
+            title="Toggle Fullscreen"
+          >
+            {isFullscreen ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+          </button>
         </div>
       </header>
 
