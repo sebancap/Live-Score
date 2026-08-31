@@ -17,6 +17,25 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const data = await request.json()
+    
+    // Check if participant with chestNumber already exists
+    if (data.chestNumber) {
+      const existing = await prisma.participant.findUnique({
+        where: { chestNumber: data.chestNumber }
+      })
+      if (existing) {
+        // If they exist, update their name and group just in case it was corrected
+        const updated = await prisma.participant.update({
+          where: { id: existing.id },
+          data: {
+            name: data.name,
+            groupId: data.groupId
+          }
+        })
+        return NextResponse.json(updated)
+      }
+    }
+
     const participant = await prisma.participant.create({
       data: {
         chestNumber: data.chestNumber || null,

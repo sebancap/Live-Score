@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import useSWR from 'swr'
-import { CheckCircle } from 'lucide-react'
+import { CheckCircle, Edit, Trash2 } from 'lucide-react'
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
@@ -14,58 +14,88 @@ export default function MarkEntryPage() {
   const [selectedCat, setSelectedCat] = useState('')
   const [selectedProg, setSelectedProg] = useState<any>(null)
   
-  const { data: results, mutate: mutateResults } = useSWR(selectedProg ? `/api/results?programId=${selectedProg.id}` : null, fetcher)
+  const { data: results, mutate: mutateResults } = useSWR(selectedProg ? \/api/results?programId=\\ : null, fetcher)
 
   const [entryForm, setEntryForm] = useState({ chestNumber: '', name: '', groupId: '', rank: '1' })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const handlePublish = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsSubmitting(true)
     
-    // Auto-create participant for individual, then create result
-    let participantId = null
-    if (selectedProg.type === 'INDIVIDUAL') {
-      const pRes = await fetch('/api/participants', {
+    try {
+      // If editing, delete the old result first to deduct old points properly
+      if (editId) {
+        await fetch(\/api/results/\\, { method: 'DELETE' })
+      }
+
+      // Auto-create/fetch participant for individual
+      let participantId = null
+      if (selectedProg.type === 'INDIVIDUAL') {
+        const pRes = await fetch('/api/participants', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chestNumber: entryForm.chestNumber,
+            name: entryForm.name,
+            groupId: entryForm.groupId,
+          })
+        })
+        const pData = await pRes.json()
+        participantId = pData.id
+      }
+
+      // Determine points
+      let points = 0
+      if (entryForm.rank === '1') points = selectedProg.pointsFirst
+      else if (entryForm.rank === '2') points = selectedProg.pointsSecond
+      else if (entryForm.rank === '3') points = selectedProg.pointsThird
+
+      await fetch('/api/results', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          chestNumber: entryForm.chestNumber,
-          name: entryForm.name,
+          programId: selectedProg.id,
+          participantId,
           groupId: entryForm.groupId,
+          marks: 100,
+          rank: entryForm.rank,
+          pointsAwarded: points,
+          published: true 
         })
       })
-      const pData = await pRes.json()
-      participantId = pData.id
+
+      // Reset and reload
+      setEntryForm({ chestNumber: '', name: '', groupId: '', rank: '1' })
+      setEditId(null)
+      mutateResults()
+    } catch (err) {
+      console.error(err)
+      alert("Failed to publish result. Check connection.")
+    } finally {
+      setIsSubmitting(false)
     }
+  }
 
-    // Determine points
-    let points = 0
-    if (entryForm.rank === '1') points = selectedProg.pointsFirst
-    else if (entryForm.rank === '2') points = selectedProg.pointsSecond
-    else if (entryForm.rank === '3') points = selectedProg.pointsThird
-
-    await fetch('/api/results', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        programId: selectedProg.id,
-        participantId,
-        groupId: entryForm.groupId,
-        marks: 100, // Default marks logic, can be expanded
-        rank: entryForm.rank,
-        pointsAwarded: points,
-        published: true // auto-publish for now
-      })
+  const handleEdit = (res: any) => {
+    setEditId(res.id)
+    setEntryForm({
+      rank: res.rank?.toString() || '1',
+      groupId: res.groupId,
+      chestNumber: res.participant?.chestNumber || '',
+      name: res.participant?.name || ''
     })
-
-    // Reset and reload
-    setEntryForm({ chestNumber: '', name: '', groupId: '', rank: '1' })
-    mutateResults()
   }
 
   const handleDeleteResult = async (id: string) => {
     if (!confirm('Delete this published result? This will deduct points.')) return
-    await fetch(`/api/results/${id}`, { method: 'DELETE' })
+    setIsSubmitting(true)
+    await fetch(\/api/results/\\, { method: 'DELETE' })
+    setEditId(null)
+    setEntryForm({ chestNumber: '', name: '', groupId: '', rank: '1' })
     mutateResults()
+    setIsSubmitting(false)
   }
 
   const filteredPrograms = programs?.filter((p: any) => p.categoryId === selectedCat)
@@ -77,7 +107,7 @@ export default function MarkEntryPage() {
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 flex gap-4">
         <div className="flex-1">
           <label className="block text-sm font-medium mb-1">Select Category</label>
-          <select value={selectedCat} onChange={e => setSelectedCat(e.target.value)} className="w-full px-3 py-2 border rounded-md dark:bg-gray-700">
+          <select value={selectedCat} onChange={e => { setSelectedCat(e.target.value); setSelectedProg(null); }} className="w-full px-3 py-2 border rounded-md dark:bg-gray-700">
             <option value="">-- Choose Category --</option>
             {categories?.map((cat: any) => (
               <option key={cat.id} value={cat.id}>{cat.name}</option>
@@ -89,7 +119,11 @@ export default function MarkEntryPage() {
           <select 
             disabled={!selectedCat}
             value={selectedProg?.id || ''} 
-            onChange={e => setSelectedProg(programs.find((p: any) => p.id === e.target.value))} 
+            onChange={e => {
+              setSelectedProg(programs.find((p: any) => p.id === e.target.value))
+              setEditId(null)
+              setEntryForm({ chestNumber: '', name: '', groupId: '', rank: '1' })
+            }} 
             className="w-full px-3 py-2 border rounded-md dark:bg-gray-700 disabled:opacity-50"
           >
             <option value="">-- Choose Program --</option>
@@ -103,7 +137,7 @@ export default function MarkEntryPage() {
       {selectedProg && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-4 text-indigo-600">Enter Results</h2>
+            <h2 className="text-xl font-semibold mb-4 text-indigo-600">{editId ? 'Edit Result' : 'Enter Results'}</h2>
             <form onSubmit={handlePublish} className="space-y-4">
               <div className="flex gap-4">
                 <div className="flex-1">
@@ -138,9 +172,17 @@ export default function MarkEntryPage() {
                 </div>
               )}
 
-              <button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-md font-bold text-lg flex items-center justify-center mt-4">
-                <CheckCircle className="w-5 h-5 mr-2" /> Publish Result
-              </button>
+              <div className="flex gap-2 mt-4">
+                {editId && (
+                  <button type="button" onClick={() => { setEditId(null); setEntryForm({ chestNumber: '', name: '', groupId: '', rank: '1' }); }} className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-3 rounded-md font-bold text-lg">
+                    Cancel Edit
+                  </button>
+                )}
+                <button disabled={isSubmitting} type="submit" className="flex-1 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white px-4 py-3 rounded-md font-bold text-lg flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 mr-2" /> 
+                  {isSubmitting ? 'Publishing...' : editId ? 'Update Result' : 'Publish Result'}
+                </button>
+              </div>
             </form>
           </div>
 
@@ -163,9 +205,16 @@ export default function MarkEntryPage() {
                         </div>
                       )}
                     </div>
-                    <div className="text-right">
+                    <div className="text-right flex flex-col items-end gap-2">
                       <div className="font-bold text-green-600">+{res.pointsAwarded} pts</div>
-                      <button onClick={() => handleDeleteResult(res.id)} className="text-xs text-red-500 hover:underline mt-1">Revoke</button>
+                      <div className="flex space-x-3 mt-1">
+                        <button onClick={() => handleEdit(res)} className="text-xs flex items-center text-blue-500 hover:text-blue-700 font-semibold">
+                          <Edit className="w-3 h-3 mr-1" /> Edit
+                        </button>
+                        <button onClick={() => handleDeleteResult(res.id)} className="text-xs flex items-center text-red-500 hover:text-red-700 font-semibold">
+                          <Trash2 className="w-3 h-3 mr-1" /> Delete
+                        </button>
+                      </div>
                     </div>
                   </li>
                 ))}

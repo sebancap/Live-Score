@@ -12,7 +12,6 @@ export async function GET() {
     const latestResults = await prisma.result.findMany({
       where: { publishedAt: { not: null } },
       orderBy: { publishedAt: 'desc' },
-      take: 50,
       include: {
         participant: true,
         group: true,
