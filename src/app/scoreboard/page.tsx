@@ -167,8 +167,12 @@ export default function ScoreboardPage() {
 
   return (
     <div className="flex flex-col min-h-screen lg:h-screen lg:overflow-hidden overflow-x-hidden bg-black text-white">
-      <header className="py-4 px-8 flex justify-between items-center border-b border-white/10 bg-black/40 backdrop-blur-md">
-        <div className="flex flex-col pr-4">
+      <header className="py-4 px-4 md:px-8 flex flex-col md:flex-row justify-between items-center border-b border-white/10 bg-black/40 backdrop-blur-md">
+        {/* Left empty spacer to perfectly center the title on large screens */}
+        <div className="hidden md:block flex-1" />
+        
+        {/* Center Title */}
+        <div className="flex flex-col text-center shrink-0 mb-4 md:mb-0">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500 uppercase tracking-wide leading-tight">
             St. Francis Higher Secondary School Thottada
           </h1>
@@ -176,7 +180,9 @@ export default function ScoreboardPage() {
             School Cultural Fest
           </div>
         </div>
-        <div className="flex items-center space-x-4 shrink-0">
+        
+        {/* Right Badges */}
+        <div className="flex-1 flex justify-center md:justify-end items-center space-x-4 shrink-0">
           <div className="flex items-center space-x-2 bg-red-600/20 px-4 py-1.5 rounded-full border border-red-500/30">
             <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
             <span className="font-bold tracking-widest text-red-500 uppercase text-sm">Live Score</span>
