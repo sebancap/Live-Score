@@ -168,9 +168,14 @@ export default function ScoreboardPage() {
   return (
     <div className="flex flex-col min-h-screen lg:h-screen lg:overflow-hidden overflow-x-hidden bg-black text-white">
       <header className="py-4 px-8 flex justify-between items-center border-b border-white/10 bg-black/40 backdrop-blur-md">
-        <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500 uppercase tracking-wide leading-tight pr-4">
-          St. Francis Higher Secondary School Thottada <span className="text-white/80 font-normal">| School Cultural Fest</span>
-        </h1>
+        <div className="flex flex-col pr-4">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500 uppercase tracking-wide leading-tight">
+            St. Francis Higher Secondary School Thottada
+          </h1>
+          <div className="text-white/80 font-medium text-lg lg:text-xl tracking-wide uppercase mt-1">
+            School Cultural Fest
+          </div>
+        </div>
         <div className="flex items-center space-x-4 shrink-0">
           <div className="flex items-center space-x-2 bg-red-600/20 px-4 py-1.5 rounded-full border border-red-500/30">
             <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
