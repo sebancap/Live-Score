@@ -10,65 +10,60 @@ const fetcher = (url: string) => fetch(url).then(res => res.json())
 function EventResultDisplay({ event, isCompact = false }: { event: any, isCompact?: boolean }) {
   if (!event) return <div className="flex items-center justify-center h-full text-gray-500 italic text-sm">Waiting for results...</div>
 
+  const firsts = event.results.filter((r:any) => r.rank === 1)
+  const seconds = event.results.filter((r:any) => r.rank === 2)
+  const thirds = event.results.filter((r:any) => r.rank === 3)
+
   return (
-    <div className="flex flex-col h-full w-full">
+    <div className="flex flex-col h-full w-full overflow-hidden">
       <div className={`text-center ${isCompact ? 'mb-3' : 'mb-6'} shrink-0`}>
         <div className="text-indigo-300 font-semibold tracking-wider text-xs uppercase mb-1">
-          {event.program.category.name} • {event.program.type}
+          {event.program.category.name} &bull; {event.program.type}
         </div>
         <h3 className={`${isCompact ? 'text-2xl lg:text-3xl' : 'text-3xl lg:text-4xl'} font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 leading-tight truncate`}>
           {event.program.name}
         </h3>
       </div>
-      <div className="flex-1 flex flex-col justify-center gap-2">
-        {/* 1st Place */}
-        {event.results.find((r:any) => r.rank === 1) && (() => {
-          const r = event.results.find((res:any) => res.rank === 1)
-          return (
-            <div className={`bg-yellow-500/10 border border-yellow-500/30 rounded-xl ${isCompact ? 'p-2' : 'p-3'} flex items-center gap-4 transform scale-[1.02] shadow-[0_0_15px_rgba(234,179,8,0.15)] relative overflow-hidden`}>
-              <div className="absolute top-0 left-0 w-1.5 h-full bg-yellow-500" />
-              <div className="text-2xl font-black text-yellow-500 w-12 text-center">1st</div>
-              {r.group.logoUrl && <img src={r.group.logoUrl} className="w-8 h-8 object-contain" alt="logo" />}
-              <div className="flex-1 min-w-0">
-                <div className="text-lg font-bold text-white truncate">{r.group.name}</div>
-                {r.participant && <div className="text-yellow-200/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
-              </div>
-              <div className="text-lg font-bold text-yellow-500 bg-yellow-500/10 px-3 py-1 rounded-lg">+{r.pointsAwarded}</div>
+      <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col justify-start gap-2 pr-2 pb-2">
+        {/* 1st Place(s) */}
+        {firsts.map((r: any) => (
+          <div key={r.id} className={`bg-yellow-500/10 border border-yellow-500/30 rounded-xl ${isCompact ? 'p-2' : 'p-3'} flex items-center gap-4 transform scale-[1.02] shadow-[0_0_15px_rgba(234,179,8,0.15)] relative overflow-hidden shrink-0`}>
+            <div className="absolute top-0 left-0 w-1.5 h-full bg-yellow-500" />
+            <div className="text-2xl font-black text-yellow-500 w-12 text-center">1st</div>
+            {r.group.logoUrl && <img src={r.group.logoUrl} className="w-8 h-8 object-contain" alt="logo" />}
+            <div className="flex-1 min-w-0">
+              <div className="text-lg font-bold text-white truncate">{r.group.name}</div>
+              {r.participant && <div className="text-yellow-200/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
             </div>
-          )
-        })()}
+            <div className="text-lg font-bold text-yellow-500 bg-yellow-500/10 px-3 py-1 rounded-lg">+{r.pointsAwarded}</div>
+          </div>
+        ))}
         
-        {/* 2nd Place */}
-        {event.results.find((r:any) => r.rank === 2) && (() => {
-          const r = event.results.find((res:any) => res.rank === 2)
-          return (
-            <div className={`bg-gray-400/10 border border-gray-400/30 rounded-xl ${isCompact ? 'p-2' : 'p-3'} flex items-center gap-3 ml-2`}>
-              <div className="text-xl font-black text-gray-400 w-12 text-center">2nd</div>
-              {r.group.logoUrl && <img src={r.group.logoUrl} className="w-6 h-6 object-contain" alt="logo" />}
-              <div className="flex-1 min-w-0">
-                <div className="text-base font-bold text-white truncate">{r.group.name}</div>
-                {r.participant && <div className="text-gray-300/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
-              </div>
-              <div className="text-base font-bold text-gray-300 bg-gray-400/10 px-2 py-1 rounded-lg">+{r.pointsAwarded}</div>
+        {/* 2nd Place(s) */}
+        {seconds.map((r: any) => (
+          <div key={r.id} className={`bg-gray-400/10 border border-gray-400/30 rounded-xl ${isCompact ? 'p-2' : 'p-3'} flex items-center gap-3 ml-2 shrink-0`}>
+            <div className="text-xl font-black text-gray-400 w-12 text-center">2nd</div>
+            {r.group.logoUrl && <img src={r.group.logoUrl} className="w-6 h-6 object-contain" alt="logo" />}
+            <div className="flex-1 min-w-0">
+              <div className="text-base font-bold text-white truncate">{r.group.name}</div>
+              {r.participant && <div className="text-gray-300/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
             </div>
-          )
-        })()}
+            <div className="text-base font-bold text-gray-300 bg-gray-400/10 px-2 py-1 rounded-lg">+{r.pointsAwarded}</div>
+          </div>
+        ))}
 
-        {/* 3rd Place */}
-        {event.results.find((r:any) => r.rank === 3) && (() => {
-          const r = event.results.find((res:any) => res.rank === 3)
-          return (
-            <div className={`bg-orange-500/10 border border-orange-500/30 rounded-xl ${isCompact ? 'p-2' : 'p-3'} flex items-center gap-3 ml-4`}>
-              <div className="text-lg font-black text-orange-400 w-12 text-center">3rd</div>
-              {r.group.logoUrl && <img src={r.group.logoUrl} className="w-5 h-5 object-contain" alt="logo" />}
-              <div className="flex-1 min-w-0">
-                <div className="text-sm font-bold text-white truncate">{r.group.name}</div>
-                {r.participant && <div className="text-orange-200/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
-              </div>
-              <div className="text-sm font-bold text-orange-400 bg-orange-500/10 px-2 py-1 rounded-lg">+{r.pointsAwarded}</div>
+        {/* 3rd Place(s) */}
+        {thirds.map((r: any) => (
+          <div key={r.id} className={`bg-orange-500/10 border border-orange-500/30 rounded-xl ${isCompact ? 'p-2' : 'p-3'} flex items-center gap-3 ml-4 shrink-0`}>
+            <div className="text-lg font-black text-orange-400 w-12 text-center">3rd</div>
+            {r.group.logoUrl && <img src={r.group.logoUrl} className="w-5 h-5 object-contain" alt="logo" />}
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-bold text-white truncate">{r.group.name}</div>
+              {r.participant && <div className="text-orange-200/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
             </div>
-          )
-        })()}
+            <div className="text-sm font-bold text-orange-400 bg-orange-500/10 px-2 py-1 rounded-lg">+{r.pointsAwarded}</div>
+          </div>
+        ))}
       </div>
     </div>
   )
