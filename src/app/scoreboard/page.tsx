@@ -73,7 +73,7 @@ function EventResultDisplay({ event, isCompact = false }: { event: any, isCompac
 }
 
 export default function ScoreboardPage() {
-  const { data, isLoading } = useSWR('/api/scoreboard', fetcher, { refreshInterval: 3000 })
+  const { data, isLoading } = useSWR('/api/scoreboard', fetcher, { refreshInterval: 15000 })
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
   const [isFullscreen, setIsFullscreen] = useState(false)
 
@@ -176,7 +176,7 @@ export default function ScoreboardPage() {
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500 uppercase tracking-wide leading-tight">
             St. Francis Higher Secondary School Thottada
           </h1>
-          <div className="text-white/80 font-medium text-lg lg:text-xl tracking-wide uppercase mt-1">
+          <div className="text-white/100 font-medium text-lg lg:text-xl tracking-wide uppercase mt-1">
             School Cultural Fest
           </div>
         </div>
