@@ -27,7 +27,7 @@ function EventResultDisplay({ event, isCompact = false, groups = [] }: { event: 
         <div className="text-indigo-300 font-semibold tracking-wider text-xs uppercase mb-1">
           {event.program.category.name} &bull; {event.program.type}
         </div>
-        <h3 className={`${isCompact ? 'text-2xl lg:text-3xl' : 'text-3xl lg:text-4xl'} font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 leading-tight truncate`}>
+        <h3 className={`${isCompact ? 'text-2xl lg:text-3xl' : 'text-3xl lg:text-4xl'} font-black text-white leading-tight truncate drop-shadow-md`}>
           {event.program.name}
         </h3>
       </div>
@@ -177,7 +177,7 @@ export default function ScoreboardPage() {
         
         {/* Center Title */}
         <div className="flex flex-col text-center shrink-0 mb-4 md:mb-0">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500 uppercase tracking-wide leading-tight">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-yellow-400 uppercase tracking-wide leading-tight drop-shadow-md">
             St. Francis Higher Secondary School Thottada
           </h1>
           <div className="text-white/90 font-semibold text-xl md:text-2xl lg:text-3xl tracking-widest uppercase mt-1">
