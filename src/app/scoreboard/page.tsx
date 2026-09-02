@@ -34,15 +34,15 @@ function EventResultDisplay({ event, isCompact = false, groups = [] }: { event: 
       <div className={`flex-1 overflow-y-auto custom-scrollbar pr-2 pb-2 ${isGrid ? 'grid grid-cols-2 gap-2 content-start' : 'flex flex-col justify-start gap-2'}`}>
         {/* 1st Place(s) */}
         {firsts.map((r: any) => (
-          <div key={r.id} className={`bg-yellow-500/10 border border-yellow-500/30 rounded-xl ${isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isGrid ? 'gap-2' : 'gap-4'} transform scale-[1.02] shadow-[0_0_15px_rgba(234,179,8,0.15)] relative overflow-hidden shrink-0`}>
-            <div className="absolute top-0 left-0 w-1.5 h-full bg-yellow-500" />
-            <div className={`${isGrid ? 'text-xl w-8' : 'text-2xl w-12'} font-black text-yellow-500 text-center`}>1st</div>
+          <div key={r.id} className={`bg-[#FFFF00]/10 border border-[#FFFF00]/30 rounded-xl ${isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isGrid ? 'gap-2' : 'gap-4'} transform scale-[1.02] shadow-[0_0_15px_rgba(255,255,0,0.15)] relative overflow-hidden shrink-0`}>
+            <div className="absolute top-0 left-0 w-1.5 h-full bg-[#FFFF00]" />
+            <div className={`${isGrid ? 'text-xl w-8' : 'text-2xl w-12'} font-black text-[#FFFF00] text-center`}>1st</div>
             {getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`${isGrid ? 'w-6 h-6' : 'w-8 h-8'} object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
               <div className={`${isGrid ? 'text-base' : 'text-lg'} font-bold text-white truncate`}>{r.group.name}</div>
               {r.participant && <div className="text-yellow-200/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
             </div>
-            <div className={`${isGrid ? 'text-sm' : 'text-lg'} font-bold text-yellow-500 bg-yellow-500/10 px-2 py-1 rounded-lg`}>+{r.pointsAwarded}</div>
+            <div className={`${isGrid ? 'text-sm' : 'text-lg'} font-bold text-[#FFFF00] bg-[#FFFF00]/10 px-2 py-1 rounded-lg`}>+{r.pointsAwarded}</div>
           </div>
         ))}
         
@@ -177,7 +177,7 @@ export default function ScoreboardPage() {
         
         {/* Center Title */}
         <div className="flex flex-col text-center shrink-0 mb-4 md:mb-0">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-yellow-400 uppercase tracking-wide leading-tight drop-shadow-md">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#FFFF00] uppercase tracking-wide leading-tight drop-shadow-md">
             St. Francis Higher Secondary School Thottada
           </h1>
           <div className="text-white/90 font-semibold text-xl md:text-2xl lg:text-3xl tracking-widest uppercase mt-1">
@@ -210,7 +210,7 @@ export default function ScoreboardPage() {
           {/* Overall Standing Container */}
           <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl shadow-2xl relative flex-1 lg:min-h-0 flex flex-col">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-3 shrink-0">
-              <Trophy className="text-yellow-500 w-7 h-7" /> Overall Standings
+              <Trophy className="text-[#FFFF00] w-7 h-7" /> Overall Standings
             </h2>
             
             {/* Podium */}
@@ -218,7 +218,7 @@ export default function ScoreboardPage() {
               {/* 1st Place */}
               {top4[0] && (
                 <div className="flex flex-col items-center flex-1 min-w-[100px] md:min-w-[70px] h-full justify-end z-10">
-                  {top4[0].logoUrl ? <img src={top4[0].logoUrl} className="w-10 h-10 lg:w-16 lg:h-16 mb-2 object-contain animate-bounce shrink-0" alt="logo" /> : <Trophy className="text-yellow-400 w-8 h-8 lg:w-12 lg:h-12 mb-2 animate-bounce shrink-0" />}
+                  {top4[0].logoUrl ? <img src={top4[0].logoUrl} className="w-10 h-10 lg:w-16 lg:h-16 mb-2 object-contain animate-bounce shrink-0" alt="logo" /> : <Trophy className="text-[#FFFF00] w-8 h-8 lg:w-12 lg:h-12 mb-2 animate-bounce shrink-0" />}
                   <div className="text-sm md:text-base lg:text-xl font-black mb-1 w-full text-center text-yellow-300 leading-tight break-words px-1 shrink-0">{top4[0].name}</div>
                   <div className="text-xl md:text-2xl lg:text-4xl font-extrabold mb-2 shrink-0">{top4[0].totalPoints}</div>
                   <div 
@@ -338,7 +338,7 @@ export default function ScoreboardPage() {
           
           {/* Top Container: Latest Result (Static) */}
           <div className="flex-1 min-h-[300px] lg:min-h-0 bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/20 rounded-3xl p-5 backdrop-blur-xl shadow-2xl relative overflow-hidden flex flex-col">
-            <h2 className="text-lg font-bold flex items-center gap-2 mb-2 text-yellow-400 shrink-0">
+            <h2 className="text-lg font-bold flex items-center gap-2 mb-2 text-[#FFFF00] shrink-0">
               <Star className="w-5 h-5" /> Latest Announcement
             </h2>
             <div className="flex-1 relative">
@@ -396,7 +396,7 @@ export default function ScoreboardPage() {
             {/* Duplicate for seamless loop */}
             {[...data.latestResults, ...data.latestResults].map((res: any, idx: number) => (
               <div key={idx} className="flex items-center gap-2 font-semibold text-white/80 text-sm">
-                <span className="text-yellow-400 font-bold">{res.rank === 1 ? '🥇' : res.rank === 2 ? '🥈' : '🥉'}</span>
+                <span className="text-[#FFFF00] font-bold">{res.rank === 1 ? '🥇' : res.rank === 2 ? '🥈' : '🥉'}</span>
                 <span className="text-gray-400">[{res.program.category.name}]</span>
                 <span className="text-white">{res.program.name}</span>
                 <span className="text-indigo-300 mx-2">→</span>
