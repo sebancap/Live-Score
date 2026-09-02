@@ -7,7 +7,7 @@ import { Trophy, Mic2, Star, Maximize, Minimize } from 'lucide-react'
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
-function EventResultDisplay({ event, isCompact = false }: { event: any, isCompact?: boolean }) {
+function EventResultDisplay({ event, isCompact = false, groups = [] }: { event: any, isCompact?: boolean, groups?: any[] }) {
   if (!event) return <div className="flex items-center justify-center h-full text-gray-500 italic text-sm">Waiting for results...</div>
 
   const firsts = event.results.filter((r:any) => r.rank === 1)
@@ -16,6 +16,10 @@ function EventResultDisplay({ event, isCompact = false }: { event: any, isCompac
   
   const totalWinners = firsts.length + seconds.length + thirds.length
   const isGrid = totalWinners > 3
+
+  const getLogo = (groupId: string) => {
+    return groups.find((g: any) => g.id === groupId)?.logoUrl
+  }
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
@@ -33,7 +37,7 @@ function EventResultDisplay({ event, isCompact = false }: { event: any, isCompac
           <div key={r.id} className={`bg-yellow-500/10 border border-yellow-500/30 rounded-xl ${isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isGrid ? 'gap-2' : 'gap-4'} transform scale-[1.02] shadow-[0_0_15px_rgba(234,179,8,0.15)] relative overflow-hidden shrink-0`}>
             <div className="absolute top-0 left-0 w-1.5 h-full bg-yellow-500" />
             <div className={`${isGrid ? 'text-xl w-8' : 'text-2xl w-12'} font-black text-yellow-500 text-center`}>1st</div>
-            {r.group.logoUrl && <img src={r.group.logoUrl} className={`${isGrid ? 'w-6 h-6' : 'w-8 h-8'} object-contain`} alt="logo" />}
+            {getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`${isGrid ? 'w-6 h-6' : 'w-8 h-8'} object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
               <div className={`${isGrid ? 'text-base' : 'text-lg'} font-bold text-white truncate`}>{r.group.name}</div>
               {r.participant && <div className="text-yellow-200/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
@@ -46,7 +50,7 @@ function EventResultDisplay({ event, isCompact = false }: { event: any, isCompac
         {seconds.map((r: any) => (
           <div key={r.id} className={`bg-gray-400/10 border border-gray-400/30 rounded-xl ${isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isGrid ? 'gap-2' : 'gap-3 ml-2'} shrink-0`}>
             <div className={`${isGrid ? 'text-lg w-8' : 'text-xl w-12'} font-black text-gray-400 text-center`}>2nd</div>
-            {r.group.logoUrl && <img src={r.group.logoUrl} className={`${isGrid ? 'w-5 h-5' : 'w-6 h-6'} object-contain`} alt="logo" />}
+            {getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`${isGrid ? 'w-5 h-5' : 'w-6 h-6'} object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
               <div className={`${isGrid ? 'text-sm' : 'text-base'} font-bold text-white truncate`}>{r.group.name}</div>
               {r.participant && <div className="text-gray-300/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
@@ -59,7 +63,7 @@ function EventResultDisplay({ event, isCompact = false }: { event: any, isCompac
         {thirds.map((r: any) => (
           <div key={r.id} className={`bg-orange-500/10 border border-orange-500/30 rounded-xl ${isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isGrid ? 'gap-2' : 'gap-3 ml-4'} shrink-0`}>
             <div className={`${isGrid ? 'text-base w-8' : 'text-lg w-12'} font-black text-orange-400 text-center`}>3rd</div>
-            {r.group.logoUrl && <img src={r.group.logoUrl} className={`${isGrid ? 'w-4 h-4' : 'w-5 h-5'} object-contain`} alt="logo" />}
+            {getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`${isGrid ? 'w-4 h-4' : 'w-5 h-5'} object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
               <div className={`${isGrid ? 'text-xs' : 'text-sm'} font-bold text-white truncate`}>{r.group.name}</div>
               {r.participant && <div className="text-orange-200/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
@@ -338,7 +342,7 @@ export default function ScoreboardPage() {
               <Star className="w-5 h-5" /> Latest Announcement
             </h2>
             <div className="flex-1 relative">
-              <EventResultDisplay event={publishedEvents[0]} isCompact={true} />
+              <EventResultDisplay event={publishedEvents[0]} isCompact={true} groups={groups} />
             </div>
           </div>
 
@@ -366,7 +370,7 @@ export default function ScoreboardPage() {
                     transition={{ duration: 0.5, ease: "easeInOut" }}
                     className="absolute inset-0 flex flex-col"
                   >
-                    <EventResultDisplay event={currentEvent} isCompact={true} />
+                    <EventResultDisplay event={currentEvent} isCompact={true} groups={groups} />
                   </motion.div>
                 ) : (
                   <div className="flex items-center justify-center h-full text-gray-500 text-sm italic">

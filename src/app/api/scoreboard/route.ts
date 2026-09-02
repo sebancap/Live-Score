@@ -14,7 +14,13 @@ export async function GET() {
       orderBy: { publishedAt: 'desc' },
       include: {
         participant: true,
-        group: true,
+        group: {
+          select: {
+            id: true,
+            name: true,
+            colorCode: true,
+          }
+        },
         program: {
           include: { category: true }
         }
