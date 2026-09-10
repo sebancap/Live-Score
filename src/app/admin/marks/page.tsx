@@ -32,12 +32,13 @@ export default function MarkEntryPage() {
       // Auto-create/fetch participant if chest number or name is provided (for both INDIVIDUAL and GROUP items)
       let participantId = null
       if (entryForm.chestNumber || entryForm.name) {
+        const fallbackName = entryForm.name || (selectedProg.type === 'GROUP' ? `Team ${entryForm.chestNumber}` : 'Unknown');
         const pRes = await fetch('/api/participants', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             chestNumber: entryForm.chestNumber,
-            name: entryForm.name,
+            name: fallbackName,
             groupId: entryForm.groupId,
           })
         })
@@ -161,14 +162,16 @@ export default function MarkEntryPage() {
               </div>
 
               <div className="flex gap-4">
-                <div className="w-1/3">
+                <div className={selectedProg.type === 'INDIVIDUAL' ? "w-1/3" : "w-full"}>
                   <label className="block text-sm font-medium mb-1">Chest No.</label>
                   <input type="text" value={entryForm.chestNumber} onChange={e => setEntryForm({...entryForm, chestNumber: e.target.value})} className="w-full px-3 py-2 border rounded-md dark:bg-gray-700" />
                 </div>
-                <div className="flex-1">
-                  <label className="block text-sm font-medium mb-1">Participant Name</label>
-                  <input type="text" value={entryForm.name} onChange={e => setEntryForm({...entryForm, name: e.target.value})} className="w-full px-3 py-2 border rounded-md dark:bg-gray-700" />
-                </div>
+                {selectedProg.type === 'INDIVIDUAL' && (
+                  <div className="flex-1">
+                    <label className="block text-sm font-medium mb-1">Participant Name</label>
+                    <input type="text" value={entryForm.name} onChange={e => setEntryForm({...entryForm, name: e.target.value})} className="w-full px-3 py-2 border rounded-md dark:bg-gray-700" />
+                  </div>
+                )}
               </div>
 
               <div className="flex gap-2 mt-4">
