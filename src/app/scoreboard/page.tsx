@@ -191,12 +191,12 @@ export default function ScoreboardPage() {
         
         {/* Center Title */}
         <div className="flex flex-col text-center shrink-0 mb-4 md:mb-0">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#FFFF00] uppercase tracking-wide leading-tight drop-shadow-md">
-            St. Francis Higher Secondary School Thottada
-          </h1>
-          <div className="text-white/90 font-semibold text-xl md:text-2xl lg:text-3xl tracking-widest uppercase mt-1">
-            School Cultural Fest
-          </div>
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#FFFF00] uppercase tracking-wide leading-tight drop-shadow-md">
+              St. Francis English Medium School, Kundayithode
+            </h1>
+            <div className="text-white/90 font-semibold text-xl md:text-2xl lg:text-3xl tracking-widest uppercase mt-1">
+              RANGOLSAV 2026
+            </div>
         </div>
         
         {/* Right Badges */}
@@ -303,23 +303,6 @@ export default function ScoreboardPage() {
               )}
             </div>
 
-            {/* Other Ranks */}
-            <div className="overflow-y-auto custom-scrollbar flex-1 space-y-2 pr-2 mt-2">
-              {others.map((group: any, idx: number) => (
-                <div key={group.id} className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5">
-                  <div className="flex items-center gap-4">
-                    <span className="text-gray-400 font-bold w-4 text-right text-lg">{idx + 5}</span>
-                    {group.logoUrl ? (
-                      <img src={group.logoUrl} className="w-8 h-8 object-contain" alt="logo" />
-                    ) : (
-                      <div className="w-6 h-6 rounded-full shadow-sm" style={{ backgroundColor: group.colorCode }} />
-                    )}
-                    <span className="font-bold text-lg">{group.name}</span>
-                  </div>
-                  <span className="font-black text-xl">{group.totalPoints} pts</span>
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* Live Stages Container */}

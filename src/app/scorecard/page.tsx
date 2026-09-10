@@ -47,10 +47,10 @@ export default function ScorecardPage() {
       <header className="p-4 md:p-6 lg:p-8 shrink-0 flex justify-between items-end border-b border-indigo-500/30 bg-indigo-950 shadow-lg relative z-10">
         <div>
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#FFFF00] uppercase tracking-wide leading-tight drop-shadow-md">
-            St. Francis Higher Secondary School Thottada
+            St. Francis English Medium School, Kundayithode
           </h1>
           <div className="text-white/90 font-semibold text-xl md:text-2xl lg:text-3xl tracking-widest uppercase mt-1">
-            Program Scorecard
+            RANGOLSAV 2026 - Scorecard
           </div>
         </div>
         {chunkedGroups.length > 1 && (
