@@ -3,13 +3,28 @@
 import { useState, useEffect } from 'react'
 import useSWR from 'swr'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Trophy } from 'lucide-react'
+import { Trophy, Maximize, Minimize } from 'lucide-react'
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 export default function ScorecardPage() {
   const { data, isLoading } = useSWR('/api/scorecard', fetcher, { refreshInterval: 15000 })
   const [currentPage, setCurrentPage] = useState(0)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  
+  useEffect(() => {
+    const handleFullscreenChange = () => setIsFullscreen(!!document.fullscreenElement)
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
+  }, [])
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => console.error(err))
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen()
+    }
+  }
   
   useEffect(() => {
     if (!data?.groups?.length) return
@@ -53,11 +68,20 @@ export default function ScorecardPage() {
             RANGOLSAV 2026 - Scorecard
           </div>
         </div>
-        {chunkedGroups.length > 1 && (
-          <div className="text-[#FFFF00] font-bold bg-[#FFFF00]/10 px-4 py-2 rounded-xl border border-[#FFFF00]/30">
-            Page {currentPage + 1} / {chunkedGroups.length}
-          </div>
-        )}
+        <div className="flex items-center gap-4">
+          {chunkedGroups.length > 1 && (
+            <div className="text-[#FFFF00] font-bold bg-[#FFFF00]/10 px-4 py-2 rounded-xl border border-[#FFFF00]/30">
+              Page {currentPage + 1} / {chunkedGroups.length}
+            </div>
+          )}
+          <button 
+            onClick={toggleFullscreen}
+            className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all border border-white/10"
+            title="Toggle Fullscreen"
+          >
+            {isFullscreen ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+          </button>
+        </div>
       </header>
 
       {/* Main Content - Matrix Table */}
