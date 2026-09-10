@@ -9,11 +9,14 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     const existing = await prisma.result.findUnique({ where: { id: params.id } })
     if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
+    const isAGrade = data.rank === 'A'
+
     const result = await prisma.result.update({
       where: { id: params.id },
       data: {
         marks: parseFloat(data.marks),
-        rank: data.rank ? parseInt(data.rank) : null,
+        rank: isAGrade ? null : (data.rank ? parseInt(data.rank) : null),
+        grade: isAGrade ? 'A' : null,
         pointsAwarded: data.pointsAwarded || 0,
         publishedAt: data.published ? new Date() : null,
         participantId: data.participantId || null,

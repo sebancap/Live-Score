@@ -73,6 +73,7 @@ model Result {
   id            String   @id @default(cuid())
   marks         Float
   rank          Int?
+  grade         String?
   pointsAwarded Int      @default(0)
   publishedAt   DateTime?
 

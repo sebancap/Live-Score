@@ -13,8 +13,9 @@ function EventResultDisplay({ event, isCompact = false, groups = [] }: { event: 
   const firsts = event.results.filter((r:any) => r.rank === 1)
   const seconds = event.results.filter((r:any) => r.rank === 2)
   const thirds = event.results.filter((r:any) => r.rank === 3)
+  const aGrades = event.results.filter((r:any) => r.grade === 'A')
   
-  const totalWinners = firsts.length + seconds.length + thirds.length
+  const totalWinners = firsts.length + seconds.length + thirds.length + aGrades.length
   const isGrid = totalWinners > 3
 
   const getLogo = (groupId: string) => {
@@ -69,6 +70,19 @@ function EventResultDisplay({ event, isCompact = false, groups = [] }: { event: 
               {r.participant && <div className="text-orange-200/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
             </div>
             <div className={`${isGrid ? 'text-xs' : 'text-sm'} font-bold text-orange-400 bg-orange-500/10 px-2 py-1 rounded-lg`}>+{r.pointsAwarded}</div>
+          </div>
+        ))}
+
+        {/* A Grade(s) */}
+        {aGrades.map((r: any) => (
+          <div key={r.id} className={`bg-blue-500/10 border border-blue-500/30 rounded-lg p-1.5 flex items-center ${isGrid ? 'gap-1' : 'gap-2 ml-6'} shrink-0 opacity-90`}>
+            <div className={`text-xs w-8 font-bold text-blue-300 text-center`}>'A'</div>
+            {getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`w-3 h-3 object-contain`} alt="logo" />}
+            <div className="flex-1 min-w-0">
+              <div className={`text-[11px] font-semibold text-white/90 truncate`}>{r.group.name}</div>
+              {r.participant && <div className="text-blue-200/70 text-[9px] truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
+            </div>
+            <div className={`text-[10px] font-bold text-blue-300 bg-blue-500/10 px-1 rounded`}>+{r.pointsAwarded}</div>
           </div>
         ))}
       </div>
@@ -386,23 +400,20 @@ export default function ScoreboardPage() {
       </main>
 
       {/* Ticker / Marquee at bottom */}
-      {data.latestResults?.length > 0 && (
+      {groups.length > 0 && (
         <div className="h-10 bg-indigo-950 flex items-center overflow-hidden border-t border-indigo-500/30 whitespace-nowrap shrink-0">
           <motion.div 
-            animate={{ x: [0, -2000] }} 
-            transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-            className="flex gap-12 items-center px-4"
+            animate={{ x: [0, -1000] }} 
+            transition={{ repeat: Infinity, duration: 15, ease: "linear" }}
+            className="flex gap-16 items-center px-8"
           >
             {/* Duplicate for seamless loop */}
-            {[...data.latestResults, ...data.latestResults].map((res: any, idx: number) => (
-              <div key={idx} className="flex items-center gap-2 font-semibold text-white/80 text-sm">
-                <span className="text-[#FFFF00] font-bold">{res.rank === 1 ? '🥇' : res.rank === 2 ? '🥈' : '🥉'}</span>
-                <span className="text-gray-400">[{res.program.category.name}]</span>
-                <span className="text-white">{res.program.name}</span>
-                <span className="text-indigo-300 mx-2">→</span>
-                <span className="text-yellow-300 font-bold">{res.group.name}</span>
-                {res.participant && <span className="text-white/60">({res.participant.name})</span>}
-                <span className="text-indigo-400 mx-4">•</span>
+            {[...groups, ...groups, ...groups, ...groups].map((g: any, idx: number) => (
+              <div key={idx} className="flex items-center gap-3 font-semibold text-white/90 text-sm tracking-wide">
+                <Trophy className="w-4 h-4 text-[#FFFF00]" />
+                <span className="font-black" style={{ color: g.colorCode || '#FFF' }}>{g.name}</span>
+                <span className="text-[#FFFF00] font-bold text-base">{g.totalPoints} <span className="text-xs text-white/50">PTS</span></span>
+                <span className="text-indigo-500/50 mx-4">•</span>
               </div>
             ))}
           </motion.div>

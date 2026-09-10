@@ -28,10 +28,13 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const data = await request.json()
+    const isAGrade = data.rank === 'A'
+    
     const result = await prisma.result.create({
       data: {
         marks: parseFloat(data.marks),
-        rank: data.rank ? parseInt(data.rank) : null,
+        rank: isAGrade ? null : (data.rank ? parseInt(data.rank) : null),
+        grade: isAGrade ? 'A' : null,
         pointsAwarded: data.pointsAwarded || 0,
         publishedAt: data.published ? new Date() : null,
         programId: data.programId,

@@ -29,9 +29,9 @@ export default function MarkEntryPage() {
         await fetch(`/api/results/${editId}`, { method: 'DELETE' })
       }
 
-      // Auto-create/fetch participant for individual
+      // Auto-create/fetch participant if chest number or name is provided (for both INDIVIDUAL and GROUP items)
       let participantId = null
-      if (selectedProg.type === 'INDIVIDUAL') {
+      if (entryForm.chestNumber || entryForm.name) {
         const pRes = await fetch('/api/participants', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -50,6 +50,7 @@ export default function MarkEntryPage() {
       if (entryForm.rank === '1') points = selectedProg.pointsFirst
       else if (entryForm.rank === '2') points = selectedProg.pointsSecond
       else if (entryForm.rank === '3') points = selectedProg.pointsThird
+      else if (entryForm.rank === 'A') points = 1
 
       await fetch('/api/results', {
         method: 'POST',
@@ -80,7 +81,7 @@ export default function MarkEntryPage() {
   const handleEdit = (res: any) => {
     setEditId(res.id)
     setEntryForm({
-      rank: res.rank?.toString() || '1',
+      rank: res.grade === 'A' ? 'A' : (res.rank?.toString() || '1'),
       groupId: res.groupId,
       chestNumber: res.participant?.chestNumber || '',
       name: res.participant?.name || ''
@@ -145,6 +146,7 @@ export default function MarkEntryPage() {
                     <option value="1">1st Place ({selectedProg.pointsFirst} pts)</option>
                     <option value="2">2nd Place ({selectedProg.pointsSecond} pts)</option>
                     <option value="3">3rd Place ({selectedProg.pointsThird} pts)</option>
+                    <option value="A">A Grade (1 pt)</option>
                   </select>
                 </div>
                 <div className="flex-1">
@@ -158,18 +160,16 @@ export default function MarkEntryPage() {
                 </div>
               </div>
 
-              {selectedProg.type === 'INDIVIDUAL' && (
-                <div className="flex gap-4">
-                  <div className="w-1/3">
-                    <label className="block text-sm font-medium mb-1">Chest No.</label>
-                    <input required type="text" value={entryForm.chestNumber} onChange={e => setEntryForm({...entryForm, chestNumber: e.target.value})} className="w-full px-3 py-2 border rounded-md dark:bg-gray-700" />
-                  </div>
-                  <div className="flex-1">
-                    <label className="block text-sm font-medium mb-1">Participant Name</label>
-                    <input required type="text" value={entryForm.name} onChange={e => setEntryForm({...entryForm, name: e.target.value})} className="w-full px-3 py-2 border rounded-md dark:bg-gray-700" />
-                  </div>
+              <div className="flex gap-4">
+                <div className="w-1/3">
+                  <label className="block text-sm font-medium mb-1">Chest No.</label>
+                  <input type="text" value={entryForm.chestNumber} onChange={e => setEntryForm({...entryForm, chestNumber: e.target.value})} className="w-full px-3 py-2 border rounded-md dark:bg-gray-700" />
                 </div>
-              )}
+                <div className="flex-1">
+                  <label className="block text-sm font-medium mb-1">Participant Name</label>
+                  <input type="text" value={entryForm.name} onChange={e => setEntryForm({...entryForm, name: e.target.value})} className="w-full px-3 py-2 border rounded-md dark:bg-gray-700" />
+                </div>
+              </div>
 
               <div className="flex gap-2 mt-4">
                 {editId && (
@@ -195,7 +195,7 @@ export default function MarkEntryPage() {
                   <li key={res.id} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
                     <div>
                       <div className="flex items-center space-x-2">
-                        <span className="font-bold text-lg">{res.rank === 1 ? '🥇' : res.rank === 2 ? '🥈' : '🥉'}</span>
+                        <span className="font-bold text-lg">{res.grade === 'A' ? 'A Grade' : res.rank === 1 ? '🥇' : res.rank === 2 ? '🥈' : '🥉'}</span>
                         <span className="font-bold text-indigo-600 dark:text-indigo-400">{res.group.name}</span>
                       </div>
                       {res.participant && (
