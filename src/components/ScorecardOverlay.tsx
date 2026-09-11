@@ -28,7 +28,8 @@ export default function ScorecardOverlay({ onClose }: { onClose: () => void }) {
     }, 15000)
     
     return () => clearInterval(interval)
-  }, [data, onClose])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.groups?.length])
 
   if (isLoading || !data) {
     return (
