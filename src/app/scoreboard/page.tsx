@@ -215,10 +215,10 @@ export default function ScoreboardPage() {
         </div>
         
         {/* Right Badges */}
-        <div className="flex-1 flex justify-center md:justify-end items-center space-x-4 shrink-0">
-          <div className="flex items-center space-x-2 bg-red-600/20 px-4 py-1.5 rounded-full border border-red-500/30">
-            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-            <span className="font-bold tracking-widest text-red-500 uppercase text-sm">Live Score</span>
+        <div className="flex-1 flex justify-center md:justify-end items-center space-x-2 lg:space-x-4 shrink-0 mt-4 md:mt-0">
+          <div className="flex items-center space-x-2 bg-red-600/20 px-3 lg:px-4 py-1.5 rounded-full border border-red-500/30">
+            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse shrink-0" />
+            <span className="font-bold tracking-widest text-red-500 uppercase text-xs lg:text-sm whitespace-nowrap">Live Score</span>
           </div>
           <button 
             onClick={() => setShowScorecard(true)}

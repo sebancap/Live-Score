@@ -51,10 +51,10 @@ export default function GroupsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Groups / Houses</h1>
+      <h1 className="text-3xl font-bold">SCHOOLS</h1>
       
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
-        <h2 className="text-xl font-semibold mb-4">{isEditing ? 'Edit Group' : 'Add New Group'}</h2>
+        <h2 className="text-xl font-semibold mb-4">{isEditing ? 'Edit School' : 'Add New School'}</h2>
         <form onSubmit={handleSubmit} className="flex gap-4 items-end flex-wrap">
           <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium mb-1">Name</label>
