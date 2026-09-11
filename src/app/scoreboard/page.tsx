@@ -29,6 +29,13 @@ function EventResultDisplay({ event, isCompact = false, groups = [] }: { event: 
 
   const getLogo = (groupId: string) => groups.find((g: any) => g.id === groupId)?.logoUrl
 
+  const renderParticipantText = (participant: any) => {
+    if (!participant) return null
+    return event.program.type === 'GROUP' 
+      ? `Chest Number: ${participant.chestNumber}` 
+      : `#${participant.chestNumber} - ${participant.name}`
+  }
+
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
       <div className={`text-center ${isCompact || isDense || isSuperDense ? 'mb-1' : 'mb-3'} shrink-0`}>
