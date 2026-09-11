@@ -45,7 +45,7 @@ function EventResultDisplay({ event, isCompact = false, groups = [] }: { event: 
             {!isSuperDense && getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`${isDense ? 'w-4 h-4' : isGrid ? 'w-6 h-6' : 'w-8 h-8'} object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
               <div className={`${isSuperDense ? 'text-xs' : isDense ? 'text-sm' : isGrid ? 'text-base' : 'text-lg'} font-bold text-white truncate`}>{r.group.name}</div>
-              {!isSuperDense && r.participant && <div className="text-yellow-200/80 text-[10px] truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
+              {!isSuperDense && r.participant && <div className="text-yellow-200/80 text-[10px] truncate">{renderParticipantText(r.participant)}</div>}
             </div>
             <div className={`${isSuperDense ? 'text-xs' : isDense ? 'text-sm' : isGrid ? 'text-sm' : 'text-lg'} font-bold text-[#FFFF00] bg-[#FFFF00]/10 px-1.5 py-0.5 rounded`}>+{r.pointsAwarded}</div>
           </div>
@@ -58,7 +58,7 @@ function EventResultDisplay({ event, isCompact = false, groups = [] }: { event: 
             {!isSuperDense && getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`${isDense ? 'w-3 h-3' : isGrid ? 'w-5 h-5' : 'w-6 h-6'} object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
               <div className={`${isSuperDense ? 'text-[11px]' : isDense ? 'text-xs' : isGrid ? 'text-sm' : 'text-base'} font-bold text-white truncate`}>{r.group.name}</div>
-              {!isSuperDense && r.participant && <div className="text-gray-300/80 text-[10px] truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
+              {!isSuperDense && r.participant && <div className="text-gray-300/80 text-[10px] truncate">{renderParticipantText(r.participant)}</div>}
             </div>
             <div className={`${isSuperDense ? 'text-xs' : isDense ? 'text-xs' : isGrid ? 'text-xs' : 'text-base'} font-bold text-gray-300 bg-gray-400/10 px-1.5 py-0.5 rounded`}>+{r.pointsAwarded}</div>
           </div>
@@ -71,7 +71,7 @@ function EventResultDisplay({ event, isCompact = false, groups = [] }: { event: 
             {!isSuperDense && getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`${isDense ? 'w-3 h-3 opacity-80' : isGrid ? 'w-4 h-4' : 'w-5 h-5'} object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
               <div className={`${isSuperDense ? 'text-[10px]' : isDense ? 'text-[11px]' : isGrid ? 'text-xs' : 'text-sm'} font-bold text-white truncate`}>{r.group.name}</div>
-              {!isSuperDense && r.participant && <div className="text-orange-200/80 text-[9px] truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
+              {!isSuperDense && r.participant && <div className="text-orange-200/80 text-[9px] truncate">{renderParticipantText(r.participant)}</div>}
             </div>
             <div className={`${isSuperDense ? 'text-[10px]' : isDense ? 'text-[11px]' : isGrid ? 'text-xs' : 'text-sm'} font-bold text-orange-400 bg-orange-500/10 px-1.5 py-0.5 rounded`}>+{r.pointsAwarded}</div>
           </div>
@@ -84,7 +84,7 @@ function EventResultDisplay({ event, isCompact = false, groups = [] }: { event: 
             {!isSuperDense && !isDense && getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`w-3 h-3 object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
               <div className={`${isSuperDense ? 'text-[9px]' : isDense ? 'text-[10px]' : 'text-[11px]'} font-semibold text-white/90 truncate`}>{r.group.name}</div>
-              {!isSuperDense && !isDense && r.participant && <div className="text-blue-200/70 text-[8px] truncate">#{r.participant.chestNumber}</div>}
+              {!isSuperDense && !isDense && r.participant && <div className="text-blue-200/70 text-[8px] truncate">{renderParticipantText(r.participant)}</div>}
             </div>
             <div className={`${isSuperDense ? 'text-[8px]' : 'text-[9px]'} font-bold text-blue-300 bg-blue-500/10 px-1 rounded`}>+{r.pointsAwarded}</div>
           </div>
