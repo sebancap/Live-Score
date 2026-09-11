@@ -65,7 +65,7 @@ export default function ScorecardPage() {
             St. Francis English Medium School, Kundayithode
           </h1>
           <div className="text-white/90 font-semibold text-xl md:text-2xl lg:text-3xl tracking-widest uppercase mt-1">
-            RANGOLSAV 2026 - CATEGORY II SCORECARD
+            RANGOLSAV 2026 - CATEGORY II
           </div>
         </div>
         <div className="absolute right-4 md:right-6 lg:right-8 top-1/2 -translate-y-1/2 flex items-center gap-4">
