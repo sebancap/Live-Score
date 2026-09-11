@@ -3,7 +3,8 @@
 import { useState, useEffect, useMemo } from 'react'
 import useSWR from 'swr'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Trophy, Mic2, Star, Maximize, Minimize } from 'lucide-react'
+import { Trophy, Mic2, Star, Maximize, Minimize, Table } from 'lucide-react'
+import ScorecardOverlay from '@/components/ScorecardOverlay'
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
@@ -91,6 +92,7 @@ export default function ScoreboardPage() {
   const { data, isLoading } = useSWR('/api/scoreboard', fetcher, { refreshInterval: 15000 })
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [showScorecard, setShowScorecard] = useState(false)
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -182,6 +184,9 @@ export default function ScoreboardPage() {
 
   return (
     <div className="flex flex-col min-h-screen lg:h-screen lg:overflow-hidden overflow-x-hidden bg-black text-white">
+      <AnimatePresence>
+        {showScorecard && <ScorecardOverlay onClose={() => setShowScorecard(false)} />}
+      </AnimatePresence>
       <header className="py-4 px-4 md:px-8 flex flex-col md:flex-row justify-between items-center border-b border-white/10 bg-black/40 backdrop-blur-md">
         {/* Left empty spacer to perfectly center the title on large screens */}
         <div className="hidden md:block flex-1" />
@@ -202,6 +207,13 @@ export default function ScoreboardPage() {
             <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
             <span className="font-bold tracking-widest text-red-500 uppercase text-sm">Live Score</span>
           </div>
+          <button 
+            onClick={() => setShowScorecard(true)}
+            className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white"
+            title="Open Matrix Scorecard"
+          >
+            <Table className="w-5 h-5" />
+          </button>
           <button 
             onClick={toggleFullscreen} 
             className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white"
