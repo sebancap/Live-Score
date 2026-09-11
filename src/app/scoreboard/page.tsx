@@ -24,12 +24,9 @@ function EventResultDisplay({ event, isCompact = false, groups = [] }: { event: 
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
-      <div className={`text-center ${isCompact ? 'mb-3' : 'mb-6'} shrink-0`}>
-        <div className="text-indigo-300 font-semibold tracking-wider text-xs uppercase mb-1">
-          {event.program.category.name} &bull; {event.program.type}
-        </div>
+      <div className={`text-center ${isCompact ? 'mb-2' : 'mb-4'} shrink-0`}>
         <h3 className={`${isCompact ? 'text-2xl lg:text-3xl' : 'text-3xl lg:text-4xl'} font-black text-white leading-tight truncate drop-shadow-md`}>
-          {event.program.name}
+          {event.program.name} <span className="text-indigo-300 text-[0.55em] font-bold align-middle uppercase ml-2 tracking-wider">({event.program.type})</span>
         </h3>
       </div>
       <div className={`flex-1 overflow-y-auto custom-scrollbar pr-2 pb-2 ${isGrid ? 'grid grid-cols-2 gap-2 content-start' : 'flex flex-col justify-start gap-2'}`}>
@@ -195,7 +192,7 @@ export default function ScoreboardPage() {
               St. Francis English Medium School, Kundayithode
             </h1>
             <div className="text-white/90 font-semibold text-xl md:text-2xl lg:text-3xl tracking-widest uppercase mt-1">
-              RANGOLSAV 2026
+              RANGOLSAV 2026 - CATEGORY II
             </div>
         </div>
         
