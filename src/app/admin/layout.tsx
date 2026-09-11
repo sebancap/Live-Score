@@ -7,7 +7,7 @@ import clsx from 'clsx'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-  { name: 'Groups', href: '/admin/groups', icon: Users },
+  { name: 'Schools', href: '/admin/groups', icon: Users },
   { name: 'Categories', href: '/admin/categories', icon: Grid },
   { name: 'Programs', href: '/admin/programs', icon: ListTodo },
   { name: 'Mark Entry', href: '/admin/marks', icon: Trophy },
