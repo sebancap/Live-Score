@@ -17,70 +17,76 @@ function EventResultDisplay({ event, isCompact = false, groups = [] }: { event: 
   const aGrades = event.results.filter((r:any) => r.grade === 'A')
   
   const totalWinners = firsts.length + seconds.length + thirds.length + aGrades.length
-  const isGrid = totalWinners > 3
+  
+  const isSuperDense = totalWinners > 10
+  const isDense = totalWinners > 6 && !isSuperDense
+  const isGrid = totalWinners > 3 && !isDense && !isSuperDense
+  const isAnyGrid = totalWinners > 3
 
-  const getLogo = (groupId: string) => {
-    return groups.find((g: any) => g.id === groupId)?.logoUrl
-  }
+  const layoutClass = isAnyGrid 
+    ? `grid grid-cols-2 ${isSuperDense ? 'gap-1' : isDense ? 'gap-1.5' : 'gap-2'} content-start` 
+    : 'flex flex-col justify-start gap-2'
+
+  const getLogo = (groupId: string) => groups.find((g: any) => g.id === groupId)?.logoUrl
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
-      <div className={`text-center ${isCompact ? 'mb-2' : 'mb-4'} shrink-0`}>
-        <h3 className={`${isCompact ? 'text-2xl lg:text-3xl' : 'text-3xl lg:text-4xl'} font-black text-white leading-tight truncate drop-shadow-md`}>
-          {event.program.name} <span className="text-indigo-300 text-[0.55em] font-bold align-middle uppercase ml-2 tracking-wider">({event.program.type})</span>
+      <div className={`text-center ${isCompact || isDense || isSuperDense ? 'mb-1' : 'mb-3'} shrink-0`}>
+        <h3 className={`${isSuperDense ? 'text-xl' : isDense ? 'text-2xl' : isCompact ? 'text-2xl lg:text-3xl' : 'text-3xl lg:text-4xl'} font-black text-white leading-tight truncate drop-shadow-md`}>
+          {event.program.name} <span className="text-indigo-300 text-[0.55em] font-bold align-middle uppercase ml-1 tracking-wider">({event.program.type})</span>
         </h3>
       </div>
-      <div className={`flex-1 overflow-y-auto custom-scrollbar pr-2 pb-2 ${isGrid ? 'grid grid-cols-2 gap-2 content-start' : 'flex flex-col justify-start gap-2'}`}>
+      <div className={`flex-1 overflow-hidden pr-1 pb-1 ${layoutClass}`}>
         {/* 1st Place(s) */}
         {firsts.map((r: any) => (
-          <div key={r.id} className={`bg-[#FFFF00]/10 border border-[#FFFF00]/30 rounded-xl ${isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isGrid ? 'gap-2' : 'gap-4'} transform scale-[1.02] shadow-[0_0_15px_rgba(255,255,0,0.15)] relative overflow-hidden shrink-0`}>
+          <div key={r.id} className={`bg-[#FFFF00]/10 border border-[#FFFF00]/30 rounded-xl ${isSuperDense ? 'p-1' : isDense ? 'p-1.5' : isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isAnyGrid ? 'gap-1.5' : 'gap-4'} transform scale-[1.02] shadow-[0_0_15px_rgba(255,255,0,0.15)] relative overflow-hidden shrink-0`}>
             <div className="absolute top-0 left-0 w-1.5 h-full bg-[#FFFF00]" />
-            <div className={`${isGrid ? 'text-xl w-8' : 'text-2xl w-12'} font-black text-[#FFFF00] text-center`}>1st</div>
-            {getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`${isGrid ? 'w-6 h-6' : 'w-8 h-8'} object-contain`} alt="logo" />}
+            <div className={`${isSuperDense ? 'text-xs w-6' : isDense ? 'text-sm w-8' : isGrid ? 'text-xl w-8' : 'text-2xl w-12'} font-black text-[#FFFF00] text-center`}>1st</div>
+            {!isSuperDense && getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`${isDense ? 'w-4 h-4' : isGrid ? 'w-6 h-6' : 'w-8 h-8'} object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
-              <div className={`${isGrid ? 'text-base' : 'text-lg'} font-bold text-white truncate`}>{r.group.name}</div>
-              {r.participant && <div className="text-yellow-200/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
+              <div className={`${isSuperDense ? 'text-xs' : isDense ? 'text-sm' : isGrid ? 'text-base' : 'text-lg'} font-bold text-white truncate`}>{r.group.name}</div>
+              {!isSuperDense && r.participant && <div className="text-yellow-200/80 text-[10px] truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
             </div>
-            <div className={`${isGrid ? 'text-sm' : 'text-lg'} font-bold text-[#FFFF00] bg-[#FFFF00]/10 px-2 py-1 rounded-lg`}>+{r.pointsAwarded}</div>
+            <div className={`${isSuperDense ? 'text-xs' : isDense ? 'text-sm' : isGrid ? 'text-sm' : 'text-lg'} font-bold text-[#FFFF00] bg-[#FFFF00]/10 px-1.5 py-0.5 rounded`}>+{r.pointsAwarded}</div>
           </div>
         ))}
         
         {/* 2nd Place(s) */}
         {seconds.map((r: any) => (
-          <div key={r.id} className={`bg-gray-400/10 border border-gray-400/30 rounded-xl ${isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isGrid ? 'gap-2' : 'gap-3 ml-2'} shrink-0`}>
-            <div className={`${isGrid ? 'text-lg w-8' : 'text-xl w-12'} font-black text-gray-400 text-center`}>2nd</div>
-            {getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`${isGrid ? 'w-5 h-5' : 'w-6 h-6'} object-contain`} alt="logo" />}
+          <div key={r.id} className={`bg-gray-400/10 border border-gray-400/30 rounded-xl ${isSuperDense ? 'p-1' : isDense ? 'p-1.5' : isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isAnyGrid ? 'gap-1.5' : 'gap-3 ml-2'} shrink-0`}>
+            <div className={`${isSuperDense ? 'text-xs w-6' : isDense ? 'text-sm w-8' : isGrid ? 'text-lg w-8' : 'text-xl w-12'} font-black text-gray-400 text-center`}>2nd</div>
+            {!isSuperDense && getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`${isDense ? 'w-3 h-3' : isGrid ? 'w-5 h-5' : 'w-6 h-6'} object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
-              <div className={`${isGrid ? 'text-sm' : 'text-base'} font-bold text-white truncate`}>{r.group.name}</div>
-              {r.participant && <div className="text-gray-300/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
+              <div className={`${isSuperDense ? 'text-[11px]' : isDense ? 'text-xs' : isGrid ? 'text-sm' : 'text-base'} font-bold text-white truncate`}>{r.group.name}</div>
+              {!isSuperDense && r.participant && <div className="text-gray-300/80 text-[10px] truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
             </div>
-            <div className={`${isGrid ? 'text-xs' : 'text-base'} font-bold text-gray-300 bg-gray-400/10 px-2 py-1 rounded-lg`}>+{r.pointsAwarded}</div>
+            <div className={`${isSuperDense ? 'text-xs' : isDense ? 'text-xs' : isGrid ? 'text-xs' : 'text-base'} font-bold text-gray-300 bg-gray-400/10 px-1.5 py-0.5 rounded`}>+{r.pointsAwarded}</div>
           </div>
         ))}
 
         {/* 3rd Place(s) */}
         {thirds.map((r: any) => (
-          <div key={r.id} className={`bg-orange-500/10 border border-orange-500/30 rounded-xl ${isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isGrid ? 'gap-2' : 'gap-3 ml-4'} shrink-0`}>
-            <div className={`${isGrid ? 'text-base w-8' : 'text-lg w-12'} font-black text-orange-400 text-center`}>3rd</div>
-            {getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`${isGrid ? 'w-4 h-4' : 'w-5 h-5'} object-contain`} alt="logo" />}
+          <div key={r.id} className={`bg-orange-500/10 border border-orange-500/30 rounded-xl ${isSuperDense ? 'p-1' : isDense ? 'p-1.5' : isCompact || isGrid ? 'p-2' : 'p-3'} flex items-center ${isAnyGrid ? 'gap-1.5' : 'gap-3 ml-4'} shrink-0`}>
+            <div className={`${isSuperDense ? 'text-[10px] w-6' : isDense ? 'text-xs w-8' : isGrid ? 'text-base w-8' : 'text-lg w-12'} font-black text-orange-400 text-center`}>3rd</div>
+            {!isSuperDense && getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`${isDense ? 'w-3 h-3 opacity-80' : isGrid ? 'w-4 h-4' : 'w-5 h-5'} object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
-              <div className={`${isGrid ? 'text-xs' : 'text-sm'} font-bold text-white truncate`}>{r.group.name}</div>
-              {r.participant && <div className="text-orange-200/80 text-xs truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
+              <div className={`${isSuperDense ? 'text-[10px]' : isDense ? 'text-[11px]' : isGrid ? 'text-xs' : 'text-sm'} font-bold text-white truncate`}>{r.group.name}</div>
+              {!isSuperDense && r.participant && <div className="text-orange-200/80 text-[9px] truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
             </div>
-            <div className={`${isGrid ? 'text-xs' : 'text-sm'} font-bold text-orange-400 bg-orange-500/10 px-2 py-1 rounded-lg`}>+{r.pointsAwarded}</div>
+            <div className={`${isSuperDense ? 'text-[10px]' : isDense ? 'text-[11px]' : isGrid ? 'text-xs' : 'text-sm'} font-bold text-orange-400 bg-orange-500/10 px-1.5 py-0.5 rounded`}>+{r.pointsAwarded}</div>
           </div>
         ))}
 
         {/* A Grade(s) */}
         {aGrades.map((r: any) => (
-          <div key={r.id} className={`bg-blue-500/10 border border-blue-500/30 rounded-lg p-1.5 flex items-center ${isGrid ? 'gap-1' : 'gap-2 ml-6'} shrink-0 opacity-90`}>
-            <div className={`text-xs w-8 font-bold text-blue-300 text-center`}>'A'</div>
-            {getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`w-3 h-3 object-contain`} alt="logo" />}
+          <div key={r.id} className={`bg-blue-500/10 border border-blue-500/30 rounded-lg ${isSuperDense ? 'p-0.5' : isDense ? 'p-1' : 'p-1.5'} flex items-center ${isAnyGrid ? 'gap-1' : 'gap-2 ml-6'} shrink-0 opacity-90`}>
+            <div className={`${isSuperDense ? 'text-[9px] w-4' : isDense ? 'text-[10px] w-6' : 'text-xs w-8'} font-bold text-blue-300 text-center`}>'A'</div>
+            {!isSuperDense && !isDense && getLogo(r.groupId) && <img src={getLogo(r.groupId)} className={`w-3 h-3 object-contain`} alt="logo" />}
             <div className="flex-1 min-w-0">
-              <div className={`text-[11px] font-semibold text-white/90 truncate`}>{r.group.name}</div>
-              {r.participant && <div className="text-blue-200/70 text-[9px] truncate">#{r.participant.chestNumber} - {r.participant.name}</div>}
+              <div className={`${isSuperDense ? 'text-[9px]' : isDense ? 'text-[10px]' : 'text-[11px]'} font-semibold text-white/90 truncate`}>{r.group.name}</div>
+              {!isSuperDense && !isDense && r.participant && <div className="text-blue-200/70 text-[8px] truncate">#{r.participant.chestNumber}</div>}
             </div>
-            <div className={`text-[10px] font-bold text-blue-300 bg-blue-500/10 px-1 rounded`}>+{r.pointsAwarded}</div>
+            <div className={`${isSuperDense ? 'text-[8px]' : 'text-[9px]'} font-bold text-blue-300 bg-blue-500/10 px-1 rounded`}>+{r.pointsAwarded}</div>
           </div>
         ))}
       </div>
