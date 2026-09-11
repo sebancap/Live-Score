@@ -215,25 +215,28 @@ export default function ScoreboardPage() {
         </div>
         
         {/* Right Badges */}
-        <div className="flex-1 flex justify-center md:justify-end items-center space-x-2 lg:space-x-4 shrink-0 mt-4 md:mt-0">
+        <div className="flex-1 flex flex-col items-center md:items-end justify-center gap-2 shrink-0 mt-4 md:mt-0">
           <div className="flex items-center space-x-2 bg-red-600/20 px-3 lg:px-4 py-1.5 rounded-full border border-red-500/30">
             <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse shrink-0" />
             <span className="font-bold tracking-widest text-red-500 uppercase text-xs lg:text-sm whitespace-nowrap">Live Score</span>
           </div>
-          <button 
-            onClick={() => setShowScorecard(true)}
-            className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white"
-            title="Open Matrix Scorecard"
-          >
-            <Table className="w-5 h-5" />
-          </button>
-          <button 
-            onClick={toggleFullscreen} 
-            className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white"
-            title="Toggle Fullscreen"
-          >
-            {isFullscreen ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
-          </button>
+          
+          <div className="flex items-center space-x-2 lg:space-x-4">
+            <button 
+              onClick={() => setShowScorecard(true)}
+              className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white"
+              title="Open Matrix Scorecard"
+            >
+              <Table className="w-4 h-4 md:w-5 md:h-5" />
+            </button>
+            <button 
+              onClick={toggleFullscreen} 
+              className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white"
+              title="Toggle Fullscreen"
+            >
+              {isFullscreen ? <Minimize className="w-4 h-4 md:w-5 md:h-5" /> : <Maximize className="w-4 h-4 md:w-5 md:h-5" />}
+            </button>
+          </div>
         </div>
       </header>
 

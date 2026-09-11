@@ -36,7 +36,7 @@ export default function AdminDashboard() {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
-          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Groups</h3>
+          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Schools</h3>
           <p className="mt-2 text-3xl font-bold">{data?.groups?.length || 0}</p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
@@ -66,7 +66,7 @@ export default function AdminDashboard() {
 
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
           <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700">
-            <h3 className="text-lg font-medium">Current Group Standings</h3>
+            <h3 className="text-lg font-medium">Current School Standings</h3>
           </div>
           <ul className="divide-y divide-gray-200 dark:divide-gray-700 max-h-64 overflow-y-auto">
             {data?.groups?.map((group: any, idx: number) => (
