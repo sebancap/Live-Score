@@ -59,8 +59,8 @@ export default function ScorecardPage() {
   return (
     <div className="min-h-screen bg-indigo-950 text-white flex flex-col font-sans overflow-hidden">
       {/* Header */}
-      <header className="p-4 md:p-6 lg:p-8 shrink-0 flex justify-between items-end border-b border-indigo-500/30 bg-indigo-950 shadow-lg relative z-10">
-        <div>
+      <header className="p-4 md:p-6 lg:p-8 shrink-0 flex justify-center items-center border-b border-indigo-500/30 bg-indigo-950 shadow-lg relative z-10">
+        <div className="text-center">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#FFFF00] uppercase tracking-wide leading-tight drop-shadow-md">
             St. Francis English Medium School, Kundayithode
           </h1>
@@ -68,7 +68,7 @@ export default function ScorecardPage() {
             RANGOLSAV 2026 - Scorecard
           </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="absolute right-4 md:right-6 lg:right-8 top-1/2 -translate-y-1/2 flex items-center gap-4">
           {chunkedGroups.length > 1 && (
             <div className="text-[#FFFF00] font-bold bg-[#FFFF00]/10 px-4 py-2 rounded-xl border border-[#FFFF00]/30">
               Page {currentPage + 1} / {chunkedGroups.length}
