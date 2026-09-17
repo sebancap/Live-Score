@@ -108,19 +108,19 @@ export default function ScorecardOverlay({ onClose }: { onClose: () => void }) {
                     <th className="sticky left-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-r-4 border-indigo-500/50 p-2 md:p-3 text-left font-black text-sm md:text-base text-white shadow-xl w-[130px] md:w-[220px]">
                       GROUP
                     </th>
-                    {programs.map((p: any) => {
-                      const isLong = p.name.length > 18;
-                      return (
-                        <th key={p.id} className="border-b-4 border-indigo-500/50 px-1 align-bottom pb-2 relative z-30" title={p.name}>
-                          <div className="h-[140px] md:h-[180px] relative w-full overflow-visible">
-                            <div className={`absolute bottom-0 left-1/2 origin-bottom-left transform -rotate-[60deg] -ml-2 mb-2 font-bold text-indigo-100 whitespace-nowrap tracking-wider truncate ${isLong ? 'text-[10px] md:text-xs w-[120px] md:w-[155px]' : 'text-[11px] md:text-sm w-[110px] md:w-[140px]'}`}>
-                              {p.name}
+                      {programs.map((p: any) => {
+                        const isLong = p.name.length > 18;
+                        return (
+                          <th key={p.id} className="border-b-4 border-indigo-500/50 px-1 align-bottom pb-2 relative z-30" title={p.name}>
+                            <div className="h-[180px] md:h-[240px] relative w-full overflow-visible">
+                              <div className={`absolute bottom-0 left-1/2 origin-bottom-left transform -rotate-[60deg] -ml-2 mb-2 font-bold text-indigo-100 whitespace-nowrap tracking-wider ${isLong ? 'text-[10px] md:text-xs' : 'text-[11px] md:text-sm'}`}>
+                                {p.name}
+                              </div>
                             </div>
-                          </div>
-                        </th>
-                      );
-                    })}
-                    <th className="sticky right-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-l-4 border-indigo-500/50 p-2 md:p-3 text-center font-black text-sm md:text-base text-[#FFFF00] shadow-xl w-[60px] md:w-[80px]">
+                          </th>
+                        );
+                      })}
+                    <th className="sticky right-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-l-4 border-indigo-500/50 p-2 md:p-3 text-right pr-4 md:pr-6 font-black text-sm md:text-base text-[#FFFF00] shadow-xl w-[90px] md:w-[130px]">
                       TOTAL
                     </th>
                   </tr>
@@ -154,7 +154,7 @@ export default function ScorecardOverlay({ onClose }: { onClose: () => void }) {
                         )
                       })}
                       
-                      <td className="sticky right-0 z-20 bg-indigo-950/95 backdrop-blur border-l-4 border-indigo-500/50 p-2 md:p-3 text-center shadow-xl w-[60px] md:w-[80px]">
+                      <td className="sticky right-0 z-20 bg-indigo-950/95 backdrop-blur border-l-4 border-indigo-500/50 p-2 md:p-3 text-right pr-4 md:pr-6 shadow-xl w-[90px] md:w-[130px]">
                         <span className="text-base md:text-xl font-extrabold text-[#FFFF00] drop-shadow-md">
                           {g.totalPoints}
                         </span>

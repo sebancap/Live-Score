@@ -101,58 +101,58 @@ export default function ScorecardPage() {
                   <th className="sticky left-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-r-4 border-indigo-500/50 p-2 md:p-3 text-left font-black text-sm md:text-base text-white shadow-xl w-[130px] md:w-[220px]">
                     GROUP
                   </th>
-                    {programs.map((p: any) => {
-                      const isLong = p.name.length > 18;
-                      return (
-                        <th key={p.id} className="border-b-4 border-indigo-500/50 px-1 align-bottom pb-2 relative z-30" title={p.name}>
-                          <div className="h-[140px] md:h-[180px] relative w-full overflow-visible">
-                            <div className={`absolute bottom-0 left-1/2 origin-bottom-left transform -rotate-[60deg] -ml-2 mb-2 font-bold text-indigo-100 whitespace-nowrap tracking-wider truncate ${isLong ? 'text-[10px] md:text-xs w-[120px] md:w-[155px]' : 'text-[11px] md:text-sm w-[110px] md:w-[140px]'}`}>
-                              {p.name}
+                      {programs.map((p: any) => {
+                        const isLong = p.name.length > 18;
+                        return (
+                          <th key={p.id} className="border-b-4 border-indigo-500/50 px-1 align-bottom pb-2 relative z-30" title={p.name}>
+                            <div className="h-[180px] md:h-[240px] relative w-full overflow-visible">
+                              <div className={`absolute bottom-0 left-1/2 origin-bottom-left transform -rotate-[60deg] -ml-2 mb-2 font-bold text-indigo-100 whitespace-nowrap tracking-wider ${isLong ? 'text-[10px] md:text-xs' : 'text-[11px] md:text-sm'}`}>
+                                {p.name}
+                              </div>
                             </div>
-                          </div>
-                        </th>
-                      );
-                    })}
-                  <th className="sticky right-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-l-4 border-indigo-500/50 p-2 md:p-3 text-center font-black text-sm md:text-base text-[#FFFF00] shadow-xl w-[60px] md:w-[80px]">
-                    TOTAL
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentGroups.map((g: any, idx: number) => (
-                  <tr key={g.id} className={idx % 2 === 0 ? 'bg-white/5 hover:bg-white/10 transition-colors' : 'bg-transparent hover:bg-white/10 transition-colors'}>
-                    <td className="sticky left-0 z-20 bg-indigo-950/95 backdrop-blur border-r-4 border-indigo-500/50 p-2 shadow-xl w-[130px] md:w-[160px]">
-                      <div className="flex items-start md:items-center gap-2 h-full">
-                        {g.logoUrl ? (
-                          <img src={g.logoUrl} alt="logo" className="w-5 h-5 md:w-6 md:h-6 object-contain shrink-0 mt-0.5 md:mt-0" />
-                        ) : (
-                          <Trophy className="w-4 h-4 md:w-5 md:h-5 text-[#FFFF00] shrink-0 mt-0.5 md:mt-0" />
-                        )}
-                        <span className="font-black text-[11px] md:text-[13px] lg:text-[15px] tracking-wide whitespace-normal break-words leading-tight" style={{ color: g.colorCode || '#FFF' }}>
-                          {g.name}
-                        </span>
-                      </div>
-                    </td>
-                    
-                    {programs.map((p: any) => {
-                      const score = getScore(g.id, p.id)
-                      return (
-                        <td key={p.id} className="p-1 md:p-2 text-center border-b border-white/5 text-xs md:text-sm font-semibold text-white/80">
-                          {score > 0 ? (
-                            <span className="bg-white/10 px-1.5 py-0.5 rounded border border-white/20 text-[#FFFF00]">{score}</span>
-                          ) : (
-                            <span className="text-white/20">-</span>
-                          )}
-                        </td>
-                      )
-                    })}
-                    
-                    <td className="sticky right-0 z-20 bg-indigo-950/95 backdrop-blur border-l-4 border-indigo-500/50 p-2 md:p-3 text-center shadow-xl w-[60px] md:w-[80px]">
-                      <span className="text-base md:text-xl font-extrabold text-[#FFFF00] drop-shadow-md">
-                        {g.totalPoints}
-                      </span>
-                    </td>
+                          </th>
+                        );
+                      })}
+                    <th className="sticky right-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-l-4 border-indigo-500/50 p-2 md:p-3 text-right pr-4 md:pr-6 font-black text-sm md:text-base text-[#FFFF00] shadow-xl w-[90px] md:w-[130px]">
+                      TOTAL
+                    </th>
                   </tr>
+                </thead>
+                <tbody>
+                  {currentGroups.map((g: any, idx: number) => (
+                    <tr key={g.id} className={idx % 2 === 0 ? 'bg-white/5 hover:bg-white/10 transition-colors' : 'bg-transparent hover:bg-white/10 transition-colors'}>
+                      <td className="sticky left-0 z-20 bg-indigo-950/95 backdrop-blur border-r-4 border-indigo-500/50 p-2 shadow-xl w-[130px] md:w-[160px]">
+                        <div className="flex items-start md:items-center gap-2 h-full">
+                          {g.logoUrl ? (
+                            <img src={g.logoUrl} alt="logo" className="w-5 h-5 md:w-6 md:h-6 object-contain shrink-0 mt-0.5 md:mt-0" />
+                          ) : (
+                            <Trophy className="w-4 h-4 md:w-5 md:h-5 text-[#FFFF00] shrink-0 mt-0.5 md:mt-0" />
+                          )}
+                          <span className="font-black text-[11px] md:text-[13px] lg:text-[15px] tracking-wide whitespace-normal break-words leading-tight" style={{ color: g.colorCode || '#FFF' }}>
+                            {g.name}
+                          </span>
+                        </div>
+                      </td>
+                      
+                      {programs.map((p: any) => {
+                        const score = getScore(g.id, p.id)
+                        return (
+                          <td key={p.id} className="p-1 md:p-2 text-center border-b border-white/5 text-xs md:text-sm font-semibold text-white/80">
+                            {score > 0 ? (
+                              <span className="bg-white/10 px-1.5 py-0.5 rounded border border-white/20 text-[#FFFF00]">{score}</span>
+                            ) : (
+                              <span className="text-white/20">-</span>
+                            )}
+                          </td>
+                        )
+                      })}
+                      
+                      <td className="sticky right-0 z-20 bg-indigo-950/95 backdrop-blur border-l-4 border-indigo-500/50 p-2 md:p-3 text-right pr-4 md:pr-6 shadow-xl w-[90px] md:w-[130px]">
+                        <span className="text-base md:text-xl font-extrabold text-[#FFFF00] drop-shadow-md">
+                          {g.totalPoints}
+                        </span>
+                      </td>
+                    </tr>
                 ))}
               </tbody>
             </table>

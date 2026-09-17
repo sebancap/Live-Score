@@ -210,7 +210,7 @@ export default function ScoreboardPage() {
               St. Francis English Medium School, Kundayithode
             </h1>
             <div className="text-white/90 font-semibold text-xl md:text-2xl lg:text-3xl tracking-widest uppercase mt-1">
-              RANGOLSAV 2026 - CATEGORY II
+              RANGOLSAV 2026 - CATEGORY 3
             </div>
         </div>
         
