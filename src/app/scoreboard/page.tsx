@@ -241,19 +241,19 @@ export default function ScoreboardPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col lg:flex-row gap-6 p-6 lg:min-h-0">
+      <main className="flex-1 flex flex-col lg:flex-row gap-4 p-4 lg:min-h-0">
         
         {/* Left Side: Overall Standings & Stages */}
-        <div className="w-full lg:w-1/2 flex flex-col gap-6 lg:min-h-0">
+        <div className="w-full lg:w-1/2 flex flex-col gap-4 lg:min-h-0">
           
           {/* Overall Standing Container */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl shadow-2xl relative flex-1 lg:min-h-0 flex flex-col">
-            <h2 className="text-2xl font-bold mb-4 flex items-center gap-3 shrink-0">
-              <Trophy className="text-[#FFFF00] w-7 h-7" /> Overall Standings
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-4 md:p-6 backdrop-blur-xl shadow-2xl relative flex-1 lg:min-h-0 flex flex-col">
+            <h2 className="text-xl md:text-2xl font-bold mb-2 flex items-center gap-3 shrink-0">
+              <Trophy className="text-[#FFFF00] w-6 h-6 md:w-7 md:h-7" /> Overall Standings
             </h2>
             
             {/* Podium */}
-            <div className="flex justify-center items-end gap-1 md:gap-2 lg:gap-4 min-h-[300px] mb-4 shrink-0 overflow-x-auto custom-scrollbar pb-2 pt-2">
+            <div className="flex justify-center items-end gap-1 md:gap-2 lg:gap-4 flex-1 min-h-[150px] shrink-0 overflow-x-auto custom-scrollbar pb-2 pt-2">
               {/* 1st Place */}
               {top4[0] && (
                 <div className="flex flex-col items-center flex-1 min-w-[100px] md:min-w-[70px] h-full justify-end z-10">
@@ -331,7 +331,7 @@ export default function ScoreboardPage() {
           </div>
 
           {/* Live Stages Container */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-5 backdrop-blur-xl h-48 shrink-0 flex flex-col">
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-4 md:p-5 backdrop-blur-xl flex-1 min-h-[120px] max-h-48 shrink flex flex-col">
             <h2 className="text-lg font-bold mb-3 flex items-center gap-2 text-red-400">
               <Mic2 className="w-5 h-5" /> Live Stages
             </h2>
@@ -356,10 +356,10 @@ export default function ScoreboardPage() {
         </div>
 
         {/* Right Side: Results */}
-        <div className="w-full lg:w-1/2 flex flex-col gap-6 lg:min-h-0">
+        <div className="w-full lg:w-1/2 flex flex-col gap-4 lg:min-h-0">
           
           {/* Top Container: Latest Result (Static) */}
-          <div className="flex-1 min-h-[300px] lg:min-h-0 bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/20 rounded-3xl p-5 backdrop-blur-xl shadow-2xl relative overflow-hidden flex flex-col">
+          <div className="flex-1 min-h-[150px] lg:min-h-0 bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/20 rounded-3xl p-4 md:p-5 backdrop-blur-xl shadow-2xl relative overflow-hidden flex flex-col">
             <h2 className="text-lg font-bold flex items-center gap-2 mb-2 text-[#FFFF00] shrink-0">
               <Star className="w-5 h-5" /> Latest Announcement
             </h2>
@@ -369,7 +369,7 @@ export default function ScoreboardPage() {
           </div>
 
           {/* Bottom Container: Past Results (Slideshow) */}
-          <div className="flex-1 min-h-[300px] lg:min-h-0 bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/20 rounded-3xl p-5 backdrop-blur-xl shadow-2xl relative overflow-hidden flex flex-col">
+          <div className="flex-1 min-h-[150px] lg:min-h-0 bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/20 rounded-3xl p-4 md:p-5 backdrop-blur-xl shadow-2xl relative overflow-hidden flex flex-col">
             <div className="flex items-center justify-between mb-2 shrink-0">
               <h2 className="text-lg font-bold flex items-center gap-2 text-gray-300">
                 <Star className="w-5 h-5 text-gray-400" /> Past Results

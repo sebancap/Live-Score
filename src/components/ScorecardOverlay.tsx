@@ -105,15 +105,19 @@ export default function ScorecardOverlay({ onClose }: { onClose: () => void }) {
             <table className="w-full border-collapse">
               <thead>
                 <tr>
-                  <th className="sticky left-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-r-4 border-indigo-500/50 p-4 text-left font-black text-xl text-white shadow-xl min-w-[250px]">
+                  <th className="sticky left-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-r-4 border-indigo-500/50 p-2 md:p-3 text-left font-black text-sm md:text-lg text-white shadow-xl min-w-[150px] max-w-[200px]">
                     GROUP
                   </th>
                   {programs.map((p: any) => (
-                    <th key={p.id} className="border-b-4 border-indigo-500/50 p-4 font-bold text-sm text-indigo-200 whitespace-nowrap min-w-[120px] max-w-[200px] truncate" title={p.name}>
-                      {p.name}
+                    <th key={p.id} className="border-b-4 border-indigo-500/50 px-1 w-[40px] md:w-[50px] align-bottom pb-2" title={p.name}>
+                      <div className="h-[100px] md:h-[120px] relative w-full overflow-visible">
+                        <div className="absolute bottom-2 left-1/2 origin-bottom-left transform -translate-x-1/2 -rotate-[60deg] text-[10px] md:text-xs font-bold text-indigo-200 whitespace-nowrap tracking-wider">
+                          {p.name.length > 20 ? p.name.substring(0, 20) + '...' : p.name}
+                        </div>
+                      </div>
                     </th>
                   ))}
-                  <th className="sticky right-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-l-4 border-indigo-500/50 p-4 text-center font-black text-xl text-[#FFFF00] shadow-xl">
+                  <th className="sticky right-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-l-4 border-indigo-500/50 p-2 md:p-3 text-center font-black text-sm md:text-lg text-[#FFFF00] shadow-xl">
                     TOTAL
                   </th>
                 </tr>
@@ -121,14 +125,14 @@ export default function ScorecardOverlay({ onClose }: { onClose: () => void }) {
               <tbody>
                 {currentGroups.map((g: any, idx: number) => (
                   <tr key={g.id} className={idx % 2 === 0 ? 'bg-white/5 hover:bg-white/10 transition-colors' : 'bg-transparent hover:bg-white/10 transition-colors'}>
-                    <td className="sticky left-0 z-20 bg-indigo-950/95 backdrop-blur border-r-4 border-indigo-500/50 p-4 shadow-xl">
-                      <div className="flex items-center gap-3">
+                    <td className="sticky left-0 z-20 bg-indigo-950/95 backdrop-blur border-r-4 border-indigo-500/50 p-2 md:p-3 shadow-xl max-w-[150px] md:max-w-[200px] truncate">
+                      <div className="flex items-center gap-2">
                         {g.logoUrl ? (
-                          <img src={g.logoUrl} alt="logo" className="w-8 h-8 object-contain" />
+                          <img src={g.logoUrl} alt="logo" className="w-5 h-5 md:w-6 md:h-6 object-contain shrink-0" />
                         ) : (
-                          <Trophy className="w-6 h-6 text-[#FFFF00]" />
+                          <Trophy className="w-4 h-4 md:w-5 md:h-5 text-[#FFFF00] shrink-0" />
                         )}
-                        <span className="font-black text-xl tracking-wider" style={{ color: g.colorCode || '#FFF' }}>
+                        <span className="font-black text-xs md:text-sm lg:text-base tracking-wide truncate" style={{ color: g.colorCode || '#FFF' }}>
                           {g.name}
                         </span>
                       </div>
@@ -137,9 +141,9 @@ export default function ScorecardOverlay({ onClose }: { onClose: () => void }) {
                     {programs.map((p: any) => {
                       const score = getScore(g.id, p.id)
                       return (
-                        <td key={p.id} className="p-4 text-center border-b border-white/5 text-lg font-semibold text-white/80">
+                        <td key={p.id} className="p-1 md:p-2 text-center border-b border-white/5 text-xs md:text-sm font-semibold text-white/80">
                           {score > 0 ? (
-                            <span className="bg-white/10 px-3 py-1 rounded border border-white/20 text-[#FFFF00]">{score}</span>
+                            <span className="bg-white/10 px-1.5 py-0.5 rounded border border-white/20 text-[#FFFF00]">{score}</span>
                           ) : (
                             <span className="text-white/20">-</span>
                           )}
@@ -147,8 +151,8 @@ export default function ScorecardOverlay({ onClose }: { onClose: () => void }) {
                       )
                     })}
                     
-                    <td className="sticky right-0 z-20 bg-indigo-950/95 backdrop-blur border-l-4 border-indigo-500/50 p-4 text-center shadow-xl">
-                      <span className="font-black text-2xl text-[#FFFF00] bg-[#FFFF00]/10 px-4 py-1.5 rounded-lg border border-[#FFFF00]/30">
+                    <td className="sticky right-0 z-20 bg-indigo-950/95 backdrop-blur border-l-4 border-indigo-500/50 p-2 md:p-3 text-center shadow-xl">
+                      <span className="text-base md:text-xl font-extrabold text-[#FFFF00] drop-shadow-md">
                         {g.totalPoints}
                       </span>
                     </td>
