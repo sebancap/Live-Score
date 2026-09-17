@@ -102,17 +102,17 @@ export default function ScorecardOverlay({ onClose }: { onClose: () => void }) {
             transition={{ duration: 0.5 }}
             className="inline-block min-w-full"
           >
-              <table className="w-full border-collapse">
+              <table className="w-full border-collapse table-fixed">
                 <thead>
                   <tr>
-                    <th className="sticky left-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-r-4 border-indigo-500/50 p-2 md:p-3 text-left font-black text-sm md:text-base text-white shadow-xl w-[130px] md:w-[160px]">
+                    <th className="sticky left-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-r-4 border-indigo-500/50 p-2 md:p-3 text-left font-black text-sm md:text-base text-white shadow-xl w-[130px] md:w-[220px]">
                       GROUP
                     </th>
                     {programs.map((p: any) => (
-                      <th key={p.id} className="border-b-4 border-indigo-500/50 px-1 w-[50px] md:w-[70px] align-bottom pb-2" title={p.name}>
-                        <div className="h-[140px] md:h-[160px] relative w-full overflow-visible">
-                          <div className="absolute bottom-2 left-1/2 origin-bottom-left transform -translate-x-1/2 -rotate-[60deg] text-xs md:text-sm font-bold text-indigo-100 whitespace-nowrap tracking-wider">
-                            {p.name.length > 30 ? p.name.substring(0, 30) + '...' : p.name}
+                      <th key={p.id} className="border-b-4 border-indigo-500/50 px-1 align-bottom pb-2" title={p.name}>
+                        <div className="h-[140px] md:h-[180px] relative w-full overflow-visible">
+                          <div className="absolute bottom-0 left-1/2 origin-bottom-left transform -rotate-[60deg] -ml-2 mb-2 text-xs md:text-sm font-bold text-indigo-100 whitespace-nowrap tracking-wider">
+                            {p.name.length > 35 ? p.name.substring(0, 35) + '...' : p.name}
                           </div>
                         </div>
                       </th>
