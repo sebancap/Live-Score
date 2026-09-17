@@ -101,15 +101,18 @@ export default function ScorecardPage() {
                   <th className="sticky left-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-r-4 border-indigo-500/50 p-2 md:p-3 text-left font-black text-sm md:text-base text-white shadow-xl w-[130px] md:w-[220px]">
                     GROUP
                   </th>
-                  {programs.map((p: any) => (
-                    <th key={p.id} className="border-b-4 border-indigo-500/50 px-1 align-bottom pb-2" title={p.name}>
-                      <div className="h-[140px] md:h-[180px] relative w-full overflow-visible">
-                        <div className="absolute bottom-0 left-1/2 origin-bottom-left transform -rotate-[60deg] -ml-2 mb-2 text-xs md:text-sm font-bold text-indigo-100 whitespace-nowrap tracking-wider">
-                          {p.name.length > 35 ? p.name.substring(0, 35) + '...' : p.name}
-                        </div>
-                      </div>
-                    </th>
-                  ))}
+                    {programs.map((p: any) => {
+                      const isLong = p.name.length > 18;
+                      return (
+                        <th key={p.id} className="border-b-4 border-indigo-500/50 px-1 align-bottom pb-2 relative z-30" title={p.name}>
+                          <div className="h-[140px] md:h-[180px] relative w-full overflow-visible">
+                            <div className={`absolute bottom-0 left-1/2 origin-bottom-left transform -rotate-[60deg] -ml-2 mb-2 font-bold text-indigo-100 whitespace-nowrap tracking-wider truncate ${isLong ? 'text-[10px] md:text-xs w-[120px] md:w-[155px]' : 'text-[11px] md:text-sm w-[110px] md:w-[140px]'}`}>
+                              {p.name}
+                            </div>
+                          </div>
+                        </th>
+                      );
+                    })}
                   <th className="sticky right-0 z-20 bg-indigo-950/95 backdrop-blur border-b-4 border-l-4 border-indigo-500/50 p-2 md:p-3 text-center font-black text-sm md:text-base text-[#FFFF00] shadow-xl w-[60px] md:w-[80px]">
                     TOTAL
                   </th>
